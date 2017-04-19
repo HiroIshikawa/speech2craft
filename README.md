@@ -1,1 +1,1 @@
-# cs175 project - Team 23
+# speech2craft: cs175 project - Team 23
