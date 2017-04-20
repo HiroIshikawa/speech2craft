@@ -6,8 +6,8 @@ title:  Team
 # {{ page.title }}
 
 
-## USER 1
-***UCI Net ID***: ucinetid
+## Howard Liu
+***UCI Net ID***: 71363584
 
 ## USER 2
 ***UCI Net ID***: ucinetid
