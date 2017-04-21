@@ -9,8 +9,8 @@ title:  Team
 ## Howard Liu
 ***UCI Net ID***: 71363584
 
-## USER 2
-***UCI Net ID***: ucinetid
+## Brian Wei
+***UCI Net ID***: bjwei
 
 ## USER 3
 ***UCI Net ID***: takahii
