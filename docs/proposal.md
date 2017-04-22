@@ -5,7 +5,7 @@ title: Proposal
 
 ### Summary of the Project
 
-This project aims at implementing speech-to-command feature to allow user to take control on actions of an agent in a world of Minecraft. It will take user speech as initial input, and convert it using online speech-to-text APIs. Then, we will analyze the text to extract a legal action using Natural Language Processing, and finally send a command for an agent to take that action as an output. Potential applications may include partially or fully speech based game playing.
+This project aims at implementing speech-to-command feature to allow user to take control on actions of an agent in a world of Minecraft. It will take user speech as initial input, and convert it using online speech-to-text APIs. Then, we will analyze the text to extract a legal action using Natural Language Processing, and finally send a command for an agent to take that action as an output. Potential applications may include partially or fully speech based game playing. Applications outside of Minecraft may include speech commands for games with simple actions, as well as speech commands for real-life AI agents.
 
 We were also considering implementing a conversational AI agent, that may respond or even object to user speech commands. However, this would come secondary to our main focus of implementing the speech-to-command feature.
 
