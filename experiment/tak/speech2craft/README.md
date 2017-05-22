@@ -10,14 +10,14 @@
 ## Dependencies
 - [speech recognition](https://pypi.python.org/pypi/SpeechRecognition/)
 - [spacy](https://spacy.io/docs/usage/)
+- install spacy,'pip install spacy', if not yet
+- install speech recognition, satisfy all requirements and pip install it, if not yet
+- download spacy english model, 'python -m spacy download en', if noy yet
 
 ## Note
 - Implemented in python2.7
 
 ## Insturuction
-0.a. install spacy,'pip install spacy', if not yet
-0.b. install speech recognition, satisfy all requirements and pip install it, if not yet
-0.c. download spacy english model, 'python -m spacy download en', if noy yet
 1. put 'process.py' and 'command.py' in /Python_Examples folder
 2. start Minecraft, './launchClinet.sh' in the /Minecraft folder in Malmo package
 3. run '$ python process.py' in /Python_Examples folder
