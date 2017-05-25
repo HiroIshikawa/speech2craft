@@ -1,7 +1,14 @@
 # Speech2Craft Draft 1:
 
 ## Progres
-5/21: implemented the draft for the pipeline (speech to action in running Malmo environment)
+ver_0.2:
+	- stop currently running command
+	- accept multiple sentences
+	- generate multiple commands from a sentence by combining different parsing methods
+		- root based parsing
+		- verb based parsing
+ver_0.1:
+	- implemented the draft for the pipeline (speech to action in running Malmo environment)
 
 ## Scripts
 - process.py: set up neccesarry Malmo environment, trigger listner and command builder
