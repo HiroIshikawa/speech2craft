@@ -11,6 +11,7 @@ class DependencyPattern:
     Attrs:
         root   (str): the root of dependency, verb
         advmod (str): adverbial modifier
+        acomp  (str): adjectival complement
         dobj   (str): direct object
         iobj   (str): indirect object
     """
@@ -19,9 +20,10 @@ class DependencyPattern:
         """
         self.root = ''
         self.advmod = ''
+        self.acomp = ''
         self.dobj = ''
         self.iobj = ''
-
+         
     def set_root(self, root):
         """set root"""
         self.root = root
@@ -30,6 +32,10 @@ class DependencyPattern:
         """set adverbial modifier"""
         self.advmod = advmod
 
+    def set_acomp(self, acomp):
+    	"""Set adjectival complement"""
+    	self.acomp = acomp
+  
     def set_dobj(self, dobj):
         """set direct object"""
         self.dobj = dobj
@@ -40,7 +46,7 @@ class DependencyPattern:
 
     def display(self):
         """display this dependency pattern"""
-        print('{} {} {} {}').format(self.root, self.advmod, self.dobj, self.iobj)
+        print('{} {} {} {}').format(self.root, self.advmod, self.acomp, self.dobj, self.iobj)
 
 
 class Command:
@@ -105,12 +111,28 @@ def matching(depPattern, commandSet):
         # match the verb token with action
         if command.action == depPattern.root:
             # match the adverb token with adjustment
-            if command.adjustment == depPattern.advmod:
+            if command.adjustment == depPattern.advmod or command.adjustment == depPattern.acomp:
                 # generate Malmo compatible command
                 match = command.malmoCommand
                 break
     return match
 
+
+def parsePattern(head):
+	depPattern = DependencyPattern()
+	rt = head.lower_.decode("utf-8")
+	depPattern.set_root(rt)
+	for child in head.children:
+		st = child.lower_.decode("utf-8")
+		if child.dep_ == 'advmod':
+			depPattern.set_advmod(st)
+		if child.dep_ == 'acomp':
+			depPattern.set_acomp(st)
+		if child.dep_ == 'dobj':
+			depPattern.set_dobj(st)
+		if child.dep_ == 'iobj':
+			depPattern.set_iobj(st)
+	return depPattern
 
 def buildRootBasedDepPattern(sentence):
     """Build dependency pattern based on root
@@ -121,19 +143,7 @@ def buildRootBasedDepPattern(sentence):
     """
     depPatterns = []
     root_token = sentence.root
-    st = root_token.lower_.decode("utf-8")
-    depPattern = DependencyPattern()
-    depPattern.set_root(st)
-    # find tokesn depending on the verb identified
-    for child in root_token.children:
-        st = child.lower_.decode("utf-8")
-        if child.dep_ == 'advmod':
-            depPattern.set_advmod(st)
-        if child.dep_ == 'dobj':
-            depPattern.set_dobj(st)
-        if child.dep_ == 'iobj':
-            depPattern.set_iobj(st)
-        # print(child.dep_)
+    depPattern = parsePattern(root_token)
     depPatterns.append(depPattern)
     return depPatterns
 
@@ -167,7 +177,8 @@ def buildVerbBasedDepPattern(sentence):
     	print(token)
     	for child in token.children:
     		print('    child: '),
-    		print(child)
+    		print(child),
+    		print(child.dep_)
 
     verbs = []
     for token in sentence:
@@ -176,18 +187,8 @@ def buildVerbBasedDepPattern(sentence):
 
     depPatterns = []
     for verb in verbs:
-    	depPattern = DependencyPattern()
-    	vb = verb.lower_.decode("utf-8")
-    	depPattern.set_root(vb)
-    	for child in verb.children:
-    		st = child.lower_.decode("utf-8")
-	        if child.dep_ == 'advmod':
-	            depPattern.set_advmod(st)
-	        if child.dep_ == 'dobj':
-	            depPattern.set_dobj(st)
-	        if child.dep_ == 'iobj':
-	            depPattern.set_iobj(st)
-		depPatterns.append(depPattern)
+    	depPattern = parsePattern(verb)
+    	depPatterns.append(depPattern)
 	return depPatterns
 
 def buildDepPatterns(sentence):
@@ -248,6 +249,10 @@ def manageCommand(text):
     Returns:
     """
     commands = buildCommand(text)
+    print('command list generated: '),
+    for command in commands:
+    	print(command),
+    print('')
     return commands[0]
 
 
