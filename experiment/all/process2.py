@@ -27,6 +27,8 @@ import command
 import random
 import json
 import math
+# from collections import namedtuple
+# EntityInfo = namedtuple('EntityInfo', 'x, y, z, yaw, pitch, name, colour, variation, quantity')
 
 sys.stdout = os.fdopen(sys.stdout.fileno(), 'w', 0)  # flush print output immediately
 
@@ -75,7 +77,12 @@ def getMissionXML(distance):
                         <FlatWorldGenerator generatorString="3;7,220*1,5*3,2;3;,biome_1"/>
                         <!--<DefaultWorldGenerator forceReset="true"/>-->
                         <DrawingDecorator>
-                            <DrawEntity x="15" y="240.0" z="0.5" type="Pig"/>
+
+                            <DrawEntity x="3" y="227.0" z="5" type="Pig"/>
+                            <DrawEntity x="0.5" y="230.0" z="0.5" type="Chicken"/>
+                            <DrawEntity x="15" y="230.0" z="0.5" type="Pig"/>
+                            <DrawEntity x="3" y="190.0" z="0.5" type="Pig"/>
+                            <DrawEntity x="-10" y="227.0" z="0.5" type="Pig"/>
                         </DrawingDecorator>
                         <ServerQuitFromTimeUp timeLimitMs="300000"/>
                         <ServerQuitWhenAnyAgentFinishes/>
@@ -88,6 +95,7 @@ def getMissionXML(distance):
                         <Placement x="0.5" y="227.0" z="0.5" />
                     </AgentStart>
                     <AgentHandlers>
+                        <AbsoluteMovementCommands/>
                         <ObservationFromFullStats/>
                         <ObservationFromRay/>
                         <ObservationFromGrid>
@@ -96,14 +104,11 @@ def getMissionXML(distance):
                                 <max x="1" y="-1" z="1"/>
                             </Grid>
                         </ObservationFromGrid>
-                        <!--<ObservationFromNearbyEntities>
+                        <ObservationFromNearbyEntities>
                             <Range name="entities" xrange="40" yrange="40" zrange="40"/>
-                        </ObservationFromNearbyEntities>-->
+                        </ObservationFromNearbyEntities>
 
-                        <VideoProducer want_depth="false">
-                            <Width>640</Width>
-                            <Height>480</Height>
-                        </VideoProducer>
+
                         <ContinuousMovementCommands turnSpeedDegs="180"/>
                     </AgentHandlers>
                 </AgentSection>
@@ -116,34 +121,39 @@ def findEntities(agent_host, world_state):
     """Builds the grid and labels the area to paint a picture for the agent"""
     entities = {}
     while True:
-        if world_state.number_of_observations_since_last_state > 0:
-            msg = world_state.observations[-1].text
-            observations = json.loads(msg)
-            # print("OBSERVATIONS: ", observations)
-            if 'entities' in observations:
-                for block in observations['entities']:
-                    # print("BLOCK: ", block)
-                    name = block['name']
-                    # print("NAME: ", name)
-                    entities[name] = (block['yaw'], block['x'], block['z'])
-                return entities
-            else:
-                print("ERROR: Could not find 'entities' in observations.")
-                return
+        # if world_state.number_of_observations_since_last_state > 0:
+        msg = world_state.observations[-1].text
+        observations = json.loads(msg)
+        # print("OBSERVATIONS: ", observations)
+        if 'entities' in observations:
+            for block in observations['entities']:
+                # print("BLOCK: ", block)
+                name = block['name']
+                # print("NAME: ", name)
+                entities[name] = (block['yaw'], block['x'], block['z'])
+            return entities
+        else:
+            print("ERROR: Could not find 'entities' in observations.")
+            entities['Recorder Agent'] = (observations['Yaw'], observations['XPos'], observations['ZPos'])
+            return entities
 
 def findLineOfSight(agent_host, world_state):
     entities = {}
     while True:
         if world_state.number_of_observations_since_last_state > 0:
             msg = world_state.observations[-1].text
+            print(msg)
             observations = json.loads(msg)
             # print("OBSERVATIONS: ", observations)
-            if u"LineOfSight" in observations:
+            if "LineOfSight" in observations:
                 for block in observations['LineOfSight']:
                     # print("BLOCK: ", block)
                     name = block['name']
                     # print("NAME: ", name)
                     entities[name] = (block['yaw'], block['x'], block['z'])
+                return entities
+            else:
+                print("No objects in the line of sight currently.")
                 return entities
 
 def buildGrid(agent_host):
@@ -160,40 +170,108 @@ def buildGrid(agent_host):
         # print("grid",grid)
         return grid
 
+
+def getDistanceToObject(agent_host, world_state, getItem):
+    surroundingArea = findEntities(agent_host, world_state)
+    # objectLocation = findLineOfSight(agent_host, world_state)
+    # print(objectLocation)
+    # print("OBJECT:",objectLocation)
+    myYaw, myX, myZ = surroundingArea["Recorder Agent"]
+    if getItem in surroundingArea:
+        goYaw, goX, goZ = surroundingArea[getItem]
+    else:
+        return 100
+    distanceToEntity = math.sqrt((myX - goX)**2 + (myYaw - goYaw)**2)
+    return distanceToEntity
+
+
 def goToLocation(agent_host, world_state, getItem):
     """Goes to a location based on where the object is.
         Build a grid, find the object, record the location of both"""
-    objectLocation = findEntities(agent_host, world_state)
+    print("LOCATIONNNNNNNNNNNNNNNNNN")
+    surroundingArea = findEntities(agent_host, world_state)
+    # objectLocation = findEntities(agent_host, world_state)
+    print(surroundingArea)
     # print("OBJECT:",objectLocation)
-    myYaw, myX, myZ = objectLocation["Recorder Agent"]
-    if getItem in objectLocation:
-        goYaw, goX, goZ = objectLocation[getItem]
+    myYaw, myX, myZ = surroundingArea["Recorder Agent"]
+    if getItem in surroundingArea:
+        goYaw, goX, goZ = surroundingArea[getItem]
     else:
         print("ERROR: Object cannot be found.")
-        return
+        return "turn 0"
     # print("MYDISTANCE:",myYaw, myX, myZ)
     # print("PIGDISTANCE:",goYaw, goX, goZ)
-    # distanceToEntity = math.sqrt((myX - goX)**2 + (myYaw - goYaw)**2)
+    distanceToEntity = math.sqrt((myX - goX)**2 + (myYaw - goYaw)**2)
     # print(distanceToEntity)
-    '''IDEA: just keep turning toward the location of the entity'''
+
     '''OTHER IDEA: if the agent hasn't changed position for a short time, jump, because
         it must be running into something'''
-    difference = goYaw - myYaw;
-    while difference < -180:
-        difference += 360;
-    while difference > 180:
-        difference -= 360;
-    difference /= 180.0;
-    # print(difference)
-    return ("turn " + str(difference))
+    if distanceToEntity > 1:
+        difference = goYaw - myYaw;
+        while difference < -180:
+            difference += 360;
+        while difference > 180:
+            difference -= 360;
+        difference /= 180.0;
+        # print(difference)
+        return ("turn " + str(difference))
     # getMissionXML(distanceToEntity)
+    else:
+        return ("move 0")
 
 
+def getBestAngle(entities, current_yaw, current_health):
+    '''Scan through 360 degrees, looking for the best direction in which to take the next step.'''
+    us = findUs(entities)
+    scores=[]
+    # Normalise current yaw:
+    while current_yaw < 0:
+        current_yaw += 360
+    while current_yaw > 360:
+        current_yaw -= 360
 
+    # Look for best option
+    for i in xrange(agent_search_resolution):
+        # Calculate cost of turning:
+        ang = 2 * math.pi * (i / float(agent_search_resolution))
+        yaw = i * 360.0 / float(agent_search_resolution)
+        yawdist = min(abs(yaw-current_yaw), 360-abs(yaw-current_yaw))
+        turncost = agent_turn_weight * yawdist
+        score = turncost
 
+        # Calculate entity proximity cost for new (x,z):
+        x = us.x + agent_stepsize - math.sin(ang)
+        z = us.z + agent_stepsize * math.cos(ang)
+        for ent in entities:
+            dist = (ent.x - x)*(ent.x - x) + (ent.z - z)*(ent.z - z)
+            if (dist == 0):
+                continue
+            weight = 0.0
+            if ent.name == MOB_TYPE:
+                weight = agent_mob_weight
+                dist -= 1   # assume mobs are moving towards us
+                if dist <= 0:
+                    dist = 0.1
+            elif ent.name == GOAL_TYPE:
+                weight = agent_goal_weight * current_health / 20.0
+            score += weight / float(dist)
 
-def findPath(agent_host,world_state,x,y):
-    """Build a grid again for the agent """
+        # Calculate cost of proximity to edges:
+        distRight = (2+ARENA_WIDTH/2) - x
+        distLeft = (-2-ARENA_WIDTH/2) - x
+        distTop = (2+ARENA_BREADTH/2) - z
+        distBottom = (-2-ARENA_BREADTH/2) - z
+        score += agent_edge_weight / float(distRight * distRight * distRight * distRight)
+        score += agent_edge_weight / float(distLeft * distLeft * distLeft * distLeft)
+        score += agent_edge_weight / float(distTop * distTop * distTop * distTop)
+        score += agent_edge_weight / float(distBottom * distBottom * distBottom * distBottom)
+        scores.append(score)
+
+    # Find best score:
+    i = scores.index(max(scores))
+    # Return as an angle in degrees:
+    return i * 360.0 / float(agent_search_resolution)
+
 
 
 
@@ -246,7 +324,7 @@ texts = ['attack', 'jump',
 
 ith = 0
 ##test
-agent_host.sendCommand("move 1")
+# agent_host.sendCommand("move 1")
 count = 1
 # Loop until mission ends:
 while world_state.is_mission_running:
@@ -259,12 +337,63 @@ while world_state.is_mission_running:
 
     ###########Howard's CODE#############
     # buildGrid(agent_host)
-    turn = goToLocation(agent_host, world_state, "Pig")
-    print("TURN:",turn)
-    agent_host.sendCommand(str(turn))
-    if count == 10:
+    # if getDistanceToObject(agent_host, world_state, "Pig") > 1:
+    #
+    #     turn = goToLocation(agent_host, world_state, "Pig")
+    #     print("TURN:",turn)
+    #     agent_host.sendCommand(str(turn))
+    # else:
+    #     agent_host.sendCommand("move 0")
+    getItem = "Pig"
+    stop = False
+    if world_state.number_of_observations_since_last_state > 0:
+        if not stop:
+            agent_host.sendCommand("move 1")
+        msg = world_state.observations[-1].text
+        ob = json.loads(msg)
+
+        entities = {}
+        if "Yaw" in ob:
+            myYaw = ob[u'Yaw']
+        if "entities" in ob:
+
+            # entities = [EntityInfo(**k) for k in ob["entities"]]
+            for block in ob['entities']:
+                # print("BLOCK: ", block)
+                name = block['name']
+                # print("NAME: ", name)
+                entities[name] = (block['yaw'], block['x'], block['z'])
+            # print(entities)
+            # goYaw = getBestAngle(entities, myYaw, 100)
+            myYaw, myX, myZ = entities["Recorder Agent"]
+            if getItem in entities:
+                print("HERE:",getItem)
+                goYaw, goX, goZ = entities[getItem]
+            else:
+                print("RESETTING VARIABLES")
+                goYaw, goX, goZ = myYaw, myX, myZ
+            difference = goYaw - myYaw;
+            print("HAHA",difference)
+            while difference < -180:
+                difference += 360;
+            while difference > 180:
+                difference -= 360;
+            difference /= 180.0;
+            print("DIFFERENCE:",difference)
+            agent_host.sendCommand("turn " + str(difference))
+            distanceToEntity = math.sqrt((myX - goX)**2 + (myYaw - goYaw)**2)
+            print("DISTANCE:",distanceToEntity)
+            if distanceToEntity < 1.5:
+                print("STOPPING")
+                agent_host.sendCommand("turn 0")
+                agent_host.sendCommand("move 0")
+                stop = True
+
+
+    if count == 100:
         break
-    count += count
+    print(count)
+    count += 1
 
     # if findEntities(agent_host, world_state, "Pig"):
 
