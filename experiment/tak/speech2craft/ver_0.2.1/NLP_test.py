@@ -3,24 +3,6 @@ from spacy.symbols import *
 
 
 
-
-# command map: modify this for registering malmo commands
-commandMap = {
-    'move': {'forward': 1, 'back': -1, 'stop': 0, 'to': ''},  # 'go':['forward','back'],
-    'strafe': {'right': 1, 'left': -1, 'stop': 0},
-    'pitch': {'up': -1, 'down': 1, 'stop': 0},  # 'look':['up', 'down'],
-    'turn': {'right': 1, 'left': -1, 'stop': 0},
-    'jump': {'': 1, 'stop': 0},
-    'crouch': {'': 1, 'stop': 0},
-    'attack': {'': 1},
-    'use': {'': 1},
-    'stop': {'move': 0, 'strafe': 0, 'pitch': 0, 'jump': 0, 'crouch': 0}
-}
-
-def getVerbs(doc):
-    return [word for word in doc if word.pos == VERB]
-
-
 def printDependencies(doc):
     for word in doc:
         print(word.text, word.dep_, word.dep, word.pos_, word.head.text, [w.text for w in word.lefts], [w.text for w in word.rights])
@@ -45,13 +27,30 @@ def printConjuncts(doc):
         print [tok for tok in word.conjuncts]
 
 
+# command map: modify this for registering malmo commands
+commandMap = {
+    'move': {
+        'forward': 'move 1', 'back': 'move -1', 'right': 'strafe 1', 'left': 'strafe -1',
+        'north': 'movenorth 1', 'south': 'movesouth 1', 'east': 'moveeast 1', 'west': 'movewest 1', 'to': ''
+    },
+    'look': {'up': 'look -1', 'down': 'look 1'},
+    'turn': {'right': 'turn 1', 'left': 'turn -1'},
+    'jump': {'forward': 'jumpmove 1', 'back': 'jumpmove -1', 'right': 'jumpstrafe 1', 'left': 'jumpstrafe -1'},
+    'crouch': {'': 'crouch 1'},
+    'attack': {'': 'attack 1'},
+    'use': {'': 1},
+    'stop': {'move': 0, 'strafe': 0, 'pitch': 0, 'jump': 0, 'crouch': 0}
+}
+
+
 def doAdvCommand(verb, option, agent):
     options = commandMap.get(verb.text)
-    action = options.get(option.text)
-    command = '{} {}'.format(verb.text, action)
+    #action = options.get(option.text)
+    #command = '{} {}'.format(verb.text, action)
+    command = options.get(option.text)
     print 'Sending command: {}'.format(command)
     agent.sendCommand(command)
-    time.sleep(0.5)
+    #time.sleep(1)
 
 def doStopCommand(verb, agent):
     command = '{} {}'.format(verb.text, 0)
@@ -60,9 +59,9 @@ def doStopCommand(verb, agent):
 
 def doBasicCommand(verb, agent):
     command = '{} {}'.format(verb.text, 1)
-    print 'Sending command: {}'.format(verb.text)
+    print 'Sending command: {}'.format(command)
     agent.sendCommand(command)
-    time.sleep(0.5)
+    #time.sleep(1)
 
 
 def doObjCommand(verb, obj, agent):
@@ -108,7 +107,7 @@ def parseVerb(verb, agent):
                     options = commandMap.get(verb.text)
                     if r_child.text in options:
                         doAdvCommand(verb, r_child, agent)
-                        doStopCommand(verb, agent)
+                        #doStopCommand(verb, agent)
                 elif r_child.pos == NOUN:
                     # parse for preposition and prepositional object
                     # i.e. choose | steel pickaxe (-> on -> the left)
@@ -119,7 +118,7 @@ def parseVerb(verb, agent):
                     doPrepCommand(verb, r_child, agent)
                 elif r_child.pos == CCONJ:
                     doBasicCommand(verb, agent)
-                    doStopCommand(verb, agent)
+                    #doStopCommand(verb, agent)
                 elif r_child.pos == VERB:
                     # parse subsequent command
                     # choose steel pickaxe | (and) dig -> ...
@@ -130,7 +129,7 @@ def parseVerb(verb, agent):
                         parseVerb(r_child, agent)
         else:
             doBasicCommand(verb, agent)
-            doStopCommand(verb, agent)
+            #doStopCommand(verb, agent)
 
 def parseText(text, agent):
     doc = nlp(text.decode("utf-8"))
@@ -182,111 +181,37 @@ import random
 
 sys.stdout = os.fdopen(sys.stdout.fileno(), 'w', 0)  # flush print output immediately
 
+missionXML = '''<?xml version="1.0" encoding="UTF-8" ?>
+    <Mission xmlns="http://ProjectMalmo.microsoft.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <About>
+            <Summary>Normal life</Summary>
+        </About>
 
-def Menger(xorg, yorg, zorg, size, blocktype, holetype):
-    # draw solid chunk
-    genstring = GenCuboid(xorg, yorg, zorg, xorg + size - 1, yorg + size - 1, zorg + size - 1, blocktype) + "\n"
-    # now remove holes
-    unit = size
-    while (unit >= 3):
-        w = unit / 3
-        for i in xrange(0, size, unit):
-            for j in xrange(0, size, unit):
-                x = xorg + i
-                y = yorg + j
-                genstring += GenCuboid(x + w, y + w, zorg, (x + 2 * w) - 1, (y + 2 * w) - 1, zorg + size - 1,
-                                       holetype) + "\n"
-                y = yorg + i
-                z = zorg + j
-                genstring += GenCuboid(xorg, y + w, z + w, xorg + size - 1, (y + 2 * w) - 1, (z + 2 * w) - 1,
-                                       holetype) + "\n"
-                genstring += GenCuboid(x + w, yorg, z + w, (x + 2 * w) - 1, yorg + size - 1, (z + 2 * w) - 1,
-                                       holetype) + "\n"
-        unit /= 3
-    return genstring
+        <ServerSection>
+            <ServerHandlers>
+                <DefaultWorldGenerator />
+            </ServerHandlers>
+        </ServerSection>
 
+        <AgentSection mode="Survival">
+            <Name>Rover</Name>
+            <AgentStart>
+                <Inventory>
+                    <InventoryBlock slot="0" type="glowstone" quantity="63"/>
+                </Inventory>
+            </AgentStart>
+            <AgentHandlers>
+                <AbsoluteMovementCommands />
+                <DiscreteMovementCommands />
+                <InventoryCommands />
+                <ObservationFromFullStats/>
+            </AgentHandlers>
+        </AgentSection>
 
-def GenCuboid(x1, y1, z1, x2, y2, z2, blocktype):
-    return '<DrawCuboid x1="' + str(x1) + '" y1="' + str(y1) + '" z1="' + str(z1) + '" x2="' + str(x2) + '" y2="' + str(
-        y2) + '" z2="' + str(z2) + '" type="' + blocktype + '"/>'
-
-
-"""
-missionXML='''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-            <Mission xmlns="http://ProjectMalmo.microsoft.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-
-              <About>
-                <Summary>Hello world!</Summary>
-              </About>
-
-            <ServerSection>
-              <ServerInitialConditions>
-                <Time>
-                    <StartTime>12000</StartTime>
-                    <AllowPassageOfTime>false</AllowPassageOfTime>
-                </Time>
-                <Weather>clear</Weather>
-              </ServerInitialConditions>
-              <ServerHandlers>
-                  <FlatWorldGenerator generatorString="3;7,44*49,73,35:1,159:4,95:13,35:13,159:11,95:10,159:14,159:6,35:6,95:6;12;"/>
-                  <DrawingDecorator>
-                    <DrawSphere x="-27" y="70" z="0" radius="30" type="air"/>''' + Menger(-40, 40, -13, 27, "wool", "air") + '''
-                  </DrawingDecorator>
-                  <ServerQuitFromTimeUp timeLimitMs="1000000"/>
-                  <ServerQuitWhenAnyAgentFinishes/>
-                </ServerHandlers>
-              </ServerSection>
-
-              <AgentSection mode="Survival">
-                <Name>MalmoTutorialBot</Name>
-                <AgentStart>
-                    <Placement x="0.5" y="56.0" z="0.5" yaw="90"/>
-                </AgentStart>
-                <AgentHandlers>
-                  <ObservationFromFullStats/>
-                  <ContinuousMovementCommands turnSpeedDegs="180"/>
-                </AgentHandlers>
-              </AgentSection>
-            </Mission>'''
-"""
-
-missionXML = '''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-            <Mission xmlns="http://ProjectMalmo.microsoft.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-              <About>
-                <Summary>Default gameplay</Summary>
-              </About>
-
-              <ServerSection>
-                <ServerInitialConditions>
-                  <Time>
-                    <StartTime>6000</StartTime>
-                    <AllowPassageOfTime>false</AllowPassageOfTime>
-                  </Time>
-                  <Weather>clear</Weather>
-                </ServerInitialConditions>
-                <ServerHandlers>
-                  <!--<FlatWorldGenerator generatorString="3;7,220*1,5*3,2;3;,biome_1"/>-->
-                  <DefaultWorldGenerator forceReset="true"/>
-                  <ServerQuitFromTimeUp timeLimitMs="300000"/>
-                  <ServerQuitWhenAnyAgentFinishes/>
-                </ServerHandlers>
-              </ServerSection>
-
-              <AgentSection mode="Survival">
-                <Name>Recorder Agent</Name>
-                <AgentStart/>
-                <AgentHandlers>
-                  <ObservationFromFullStats/>
-                  <VideoProducer want_depth="false">
-                    <Width>640</Width>
-                    <Height>480</Height>
-                  </VideoProducer>
-                  <ContinuousMovementCommands turnSpeedDegs="180"/>
-                </AgentHandlers>
-              </AgentSection>
-            </Mission>'''
+    </Mission>'''
 
 # Create default Malmo objects:
+# <ContinuousMovementCommands />
 
 agent_host = MalmoPython.AgentHost()
 try:
@@ -299,7 +224,6 @@ if agent_host.receivedArgument("help"):
     print agent_host.getUsage()
     exit(0)
 
-# my_mission = MalmoPython.MissionSpec()
 my_mission = MalmoPython.MissionSpec(missionXML, True)
 my_mission_record = MalmoPython.MissionRecordSpec()
 
@@ -345,142 +269,3 @@ while world_state.is_mission_running:
 print
 print "Mission ended"
 # Mission has ended.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# malmo_commands = [u'move', u'strafe', u'pitch', u'turn', u'jump', u'crouch', u'attack', u'use', u'craft', u'hotbar.', u'quit']
-
-
-# def findBestMatch(user_command):
-#     max = 0
-#     for command in malmo_commands:
-#         sim = user_command.similarity(command)
-#         if (sim > max):
-#             max = sim
-#             best_match = command
-#     return best_match
-
-
-# class Adverb:
-#     def __init__(self, token):
-#         self.token = token
-#
-#     def display(self):
-#         print self.token.text
-#
-#
-# class Adjective:
-#     def __init__(self, token):
-#         self.token = token
-#
-#     def display(self):
-#         print self.token.text
-#
-# class Preposition:
-#     def __init__(self, token):
-#         self.token = token
-#         self.obj = None
-#
-#         for tok in token.rights:
-#             if tok.dep == pobj:
-#                 self.obj = Object(token)
-#
-#     def display(self):
-#         if self.obj:
-#             print '<-', self.obj.display(),
-#         print self.token.text
-#
-#
-#
-# class Object:
-#     def __init__(self, token):
-#         self.token = token
-#         self.adj = None
-#         self.comp = None
-#         self.prep = None
-#
-#         for tok in token.lefts:
-#             if tok.pos == ADJ:
-#                 self.adj = Adjective(tok)
-#             elif tok.dep == nn:
-#                 self.comp = tok.text
-#         for tok in token.rights:
-#             if tok.dep == prep:
-#                 self.prep = Preposition(tok)
-#
-#     def display(self):
-#         if self.comp:
-#             print self.comp,
-#         print self.token.text
-#
-#
-# class Verb:
-#     def __init__(self, token):
-#         self.token = token
-#         self.obj = None
-#         self.adv = None
-#         self.prep = None
-#
-#         for tok in token.rights:
-#             if tok.pos == NOUN:
-#                 self.obj = Object(tok)
-#             elif tok.pos == ADV:
-#                 self.adv = Adjective(tok)
-#             elif tok.dep == prep:
-#                 self.prep = Preposition(tok)
-#
-#     def display(self):
-#         print self.token.text
-#         if self.obj:
-#             print '\t', self.obj.display()
-#         if self.prep:
-#             print '\t', self.prep.display()
-#         if self.adv:
-#             print '\t', self.adv.display()
-#
-
-# def parsePrep(obj, prep):
-#     for r_child in prep.rights:
-#         if r_child.pos == NOUN:
-
-# class Preposition:
-#     def __init__(self, prep=None, pobj=None):
-#         self.prep = obj
-#         self.pobj = pobj
-#
-# class Object:
-#     def __init__(self, obj=None, prep=None):
-#         self.obj = obj
-#         self.prep = prep
-
-# def parseObj(obj):
-#     object = Object(obj)
-#     if obj.nbor(1) == ADP:
-#         prep = obj.nbor(1)
-#         pobj = obj.nbor(2)
-#         object.prep = Preposition(prep, pobj)
-#     return object
