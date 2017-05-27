@@ -1,6 +1,12 @@
 # Speech2Craft Draft 1:
 
 ## Progres
+- ver_0.2.2:
+	- add entity spawning
+	- add nearby entity observation
+- ver_0.2.1:
+	- add simpler parser
+	- support discrete movemetns
 - ver_0.2:
 	- stop currently running command
 	- accept multiple sentences
