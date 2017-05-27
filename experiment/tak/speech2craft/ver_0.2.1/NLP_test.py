@@ -117,6 +117,9 @@ def parseVerb(verb, agent):
                     # parse for prepositional object
                     # i.e. go | to -> pobj
                     doPrepCommand(verb, r_child, agent)
+                elif r_child.pos == CCONJ:
+                    doBasicCommand(verb, agent)
+                    doStopCommand(verb, agent)
                 elif r_child.pos == VERB:
                     # parse subsequent command
                     # choose steel pickaxe | (and) dig -> ...
