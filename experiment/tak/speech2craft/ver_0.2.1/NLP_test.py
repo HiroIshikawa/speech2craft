@@ -50,7 +50,7 @@ def doAdvCommand(verb, option, agent):
     command = options.get(option.text)
     print 'Sending command: {}'.format(command)
     agent.sendCommand(command)
-    #time.sleep(1)
+    time.sleep(1)
 
 def doStopCommand(verb, agent):
     command = '{} {}'.format(verb.text, 0)
@@ -61,7 +61,7 @@ def doBasicCommand(verb, agent):
     command = '{} {}'.format(verb.text, 1)
     print 'Sending command: {}'.format(command)
     agent.sendCommand(command)
-    #time.sleep(1)
+    time.sleep(1)
 
 
 def doObjCommand(verb, obj, agent):
@@ -107,7 +107,6 @@ def parseVerb(verb, agent):
                     options = commandMap.get(verb.text)
                     if r_child.text in options:
                         doAdvCommand(verb, r_child, agent)
-                        #doStopCommand(verb, agent)
                 elif r_child.pos == NOUN:
                     # parse for preposition and prepositional object
                     # i.e. choose | steel pickaxe (-> on -> the left)
@@ -116,9 +115,8 @@ def parseVerb(verb, agent):
                     # parse for prepositional object
                     # i.e. go | to -> pobj
                     doPrepCommand(verb, r_child, agent)
-                elif r_child.pos == CCONJ:
-                    doBasicCommand(verb, agent)
-                    #doStopCommand(verb, agent)
+                #elif r_child.pos == CCONJ:
+                #    doBasicCommand(verb, agent)
                 elif r_child.pos == VERB:
                     # parse subsequent command
                     # choose steel pickaxe | (and) dig -> ...
@@ -129,7 +127,6 @@ def parseVerb(verb, agent):
                         parseVerb(r_child, agent)
         else:
             doBasicCommand(verb, agent)
-            #doStopCommand(verb, agent)
 
 def parseText(text, agent):
     doc = nlp(text.decode("utf-8"))
