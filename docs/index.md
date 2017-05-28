@@ -1,34 +1,32 @@
 ---
 layout: default
-title:  Home
+title:  Speech2craft
 ---
 
-_Add your text here_
+###### Speech2craft
+
+### Objective
+Our objective is to implement a speech-to-command feature for Minecraft that will allow the user to use verbal commands to take control of the agent's actions. The purpose of this project is to allow the user to be able to play the game without having to touch a keyboard or controller.
 
 
-What's Markdown (`.md`)?
-
-Markdown is markup that lets you write hypertext (HTML) documents
-in easy-to-read and easy-to-write plain text.
-No angle brackets `<></>` required for
-paragraphs, lists, blockquotes, tables, etc.
+### Techniques
+Our project uses speech recognition, natural language processing, and the Malmo platform in order to accomplish our objective.
 
 
-This is a paragraph (in Markdown). Some more
-text here.
-
-This is another paragraph.
-
-This is a list:
-
-- Orange
-- Apple
-- Blueberry
+### Functionality
+Our project can currently perform the following commands (and those similar):
+- go (move) forward
+- turn (go) left
+- turn (go) right
+- go backwards
+- go to the pig
 
 
+### Links:
+- [Code][refCode]
+- [Pictures][refPictures]
+- [Malmo][refMalmo]
 
-Just getting started with Markdown?
-See the [HTML <-> Markdown Quick Reference (Cheat Sheet)][quickref].
-
-
-[quickref]: https://github.com/mundimark/quickrefs/blob/master/HTML.md
+[refCode]: https://github.com/HiroIshikawa/speech2craft/tree/master/experiment/all
+[refPictures]: https://github.com/HiroIshikawa/speech2craft/tree/master/docs/img
+[refMalmo]: https://github.com/Microsoft/malmo
