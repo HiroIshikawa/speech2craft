@@ -19,6 +19,8 @@ Our project can currently perform the following commands (and those similar):
 - turn (go) left
 - turn (go) right
 - go backwards
+- jump
+- attack
 - go to the pig
 
 
