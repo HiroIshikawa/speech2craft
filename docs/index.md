@@ -22,6 +22,7 @@ Our project can currently perform the following commands (and those similar):
 - jump
 - attack
 - go to the pig
+- character will automatically jump if encountering an obstacle
 
 
 ### Links:
