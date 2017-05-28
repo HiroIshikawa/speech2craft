@@ -97,14 +97,14 @@ def getMissionXML():
                             <DrawCuboid ''' + getCorner("1",True,True,expand=1) + " " + getCorner("2",False,False,y=226,expand=1) + ''' type="sandstone"/>
                             <DrawCuboid ''' + getCorner("1",True,True,y=207) + " " + getCorner("2",False,False,y=226) + ''' type="air"/>
                             <DrawEntity x="0" y="210" z="10" type="Pig"/>
-                            <DrawBlock x="0" y="211" z="8" type="sand"/>
-                            <DrawBlock x="1" y="211" z="8" type="sand"/>
-                            <DrawBlock x="2" y="211" z="8" type="sand"/>
-                            <DrawBlock x="3" y="211" z="8" type="sand"/>
-                            <DrawBlock x="4" y="211" z="8" type="sand"/>
-                            <DrawBlock x="-1" y="211" z="8" type="sand"/>
-                            <DrawBlock x="-2" y="211" z="8" type="sand"/>
-                            <DrawBlock x="-3" y="211" z="8" type="sand"/>
+                            <DrawBlock x="0" y="211" z="6" type="sand"/>
+                            <DrawBlock x="1" y="211" z="6" type="sand"/>
+                            <DrawBlock x="2" y="211" z="6" type="sand"/>
+                            <DrawBlock x="3" y="211" z="6" type="sand"/>
+                            <DrawBlock x="4" y="211" z="6" type="sand"/>
+                            <DrawBlock x="-1" y="211" z="6" type="sand"/>
+                            <DrawBlock x="-2" y="211" z="6" type="sand"/>
+                            <DrawBlock x="-3" y="211" z="6" type="sand"/>
                             <DrawEntity x="10" y="210" z="10" type="Sheep"/>
                             <DrawEntity x="10" y="210" z="0" type="Cow"/>
                             <!--<DrawBlock type="mob_spawner" variant="Pig" x="0" y="56" z="0"/>-->
@@ -121,8 +121,8 @@ def getMissionXML():
                     </Inventory>
                 </AgentStart>
                 <AgentHandlers>
-                    <AbsoluteMovementCommands />
                     <DiscreteMovementCommands />
+                    <AbsoluteMovementCommands />
                     <ContinuousMovementCommands turnSpeedDegs="360"/>
                     <InventoryCommands />
                     <ObservationFromFullStats/>
@@ -308,11 +308,9 @@ posCounter = 0
 trackX = 0
 trackY = 0
 trackZ = 0
-currentX = 0
-currentY = 0
-currentZ = 0
 
-HOW_LONG_TO_WAIT = 2
+
+HOW_LONG_TO_WAIT = 5
 # Loop until mission ends:
 # agent_host.sendCommand("move 1")    # run!
 time.sleep(0.5)
@@ -336,9 +334,13 @@ while world_state.is_mission_running:
                 posCounter += 1
                 if posCounter > HOW_LONG_TO_WAIT and "XPos" in ob and "YPos" in ob and "ZPos" in ob:
                     # check if the agent is within a range and isn't getting anywhere despite having an action
-                    if abs(trackX - ob["XPos"]) < 1 and abs(trackY - ob["YPos"]) < 1 and abs(trackZ - ob["ZPos"]) < 1:
-                        # print("JUMPING")
+                    if abs(trackX - ob["XPos"]) < 0.2 and abs(trackY - ob["YPos"]) < 0.2 and abs(trackZ - ob["ZPos"]) < 0.2:
+                    # if trackX == ob["XPos"] and trackY == ob["YPos"] and trackZ == ob["ZPos"]:
+                        # print(ob)
+                        print("*************JUMPING*************")
+                        agent_host.sendCommand("move 0")
                         agent_host.sendCommand("jumpmove 1")
+
                     trackX = ob["XPos"]
                     trackY = ob["YPos"]
                     trackZ = ob["ZPos"]
