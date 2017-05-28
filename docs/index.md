@@ -10,7 +10,7 @@ Our objective is to implement a speech-to-command feature for Minecraft that wil
 
 
 ### Techniques
-Our project uses speech recognition, natural language processing, and the Malmo platform in order to accomplish our objective.
+Our project uses speech recognition (Python packages), natural language processing (Spacy), and the Microsoft Malmo platform in order to accomplish our objective.
 
 
 ### Functionality
