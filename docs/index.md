@@ -3,7 +3,7 @@ layout: default
 title:  Speech2craft
 ---
 
-###### Speech2craft
+# Speech2craft
 
 ### Objective
 Our objective is to implement a speech-to-command feature for Minecraft that will allow the user to use verbal commands to take control of the agent's actions. The purpose of this project is to allow the user to be able to play the game without having to touch a keyboard or controller.
