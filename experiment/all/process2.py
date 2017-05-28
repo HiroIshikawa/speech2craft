@@ -326,7 +326,9 @@ while world_state.is_mission_running:
                 print("RESETTING VARIABLES")
                 goYaw, goX, goY, goZ = myYaw, myX, goY, myZ
 
-            # difference = getAngle((myX,myZ),(goX,goZ))
+            goYaw = getAngle((myX,myZ),(goX,goZ))
+            print("MYYAW:",myYaw)
+
             difference = goYaw - myYaw;
             print("HAHA",difference)
             while difference < -180:
@@ -338,15 +340,15 @@ while world_state.is_mission_running:
             agent_host.sendCommand("turn " + str(difference))
             distanceToEntity = math.sqrt((myX - goX)**2 + (myZ - goZ)**2)
             print("DISTANCE:",distanceToEntity)
-            if distanceToEntity < 15:
+            if distanceToEntity < 5:
                 print("STOPPING")
                 agent_host.sendCommand("turn 0")
                 agent_host.sendCommand("move 0")
                 stop = True
 
 
-    if count == 100:
-        break
+    # if count == 100:
+    #     break
     print(count)
     count += 1
 
