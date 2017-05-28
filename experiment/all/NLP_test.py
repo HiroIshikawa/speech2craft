@@ -51,6 +51,44 @@ def doAdvCommand(verb, option, agent):
     agent.sendCommand(command)
     time.sleep(0.5)
 
+def getHotKeyForItem(item, agent):
+    world_state = agent_host.getWorldState()
+    if world_state.number_of_observations_since_last_state > 0:
+        msg = world_state.observations[-1].text
+        ob = json.loads(msg)
+        for i in xrange(9):
+            slot_size = u'Hotbar_' + str(i) + '_size'
+            slot_size_contents = ob.get(slot_size, "")
+
+            slot_name = u'Hotbar_' + str(i) + '_item'
+            slot_contents = ob.get(slot_name, "")
+
+            slot_colour = u'Hotbar_' + str(i) + '_colour'
+            slot_colour_contents = ob.get(slot_colour, "")
+
+            slot_variant = u'Hotbar_' + str(i) + '_variant'
+            slot_variant_contents = ob.get(slot_variant, "")
+
+            print slot_size + ': ' + str(slot_size_contents)
+            print slot_name + ': ' + slot_contents
+            print slot_colour + ': ' + str(slot_colour_contents)
+            print slot_variant + ': ' + str(slot_variant_contents)
+
+            if slot_contents == item:
+                return i + 1  # +1 to convert from 0-based inventory slot to 1-based hotbar key.
+
+    return -1
+
+
+def getObjectString(obj):
+    string = ''
+    for child in obj.lefts:
+        if child.dep_ == 'compound' or child.dep == amod:
+            string += child.lemma_ + '_'
+    string += obj.lemma_
+
+    return string
+
 def doObjCommand(verb, obj, agent):
     ### GOING TO HAVE TO DO SOME OBJECT ANALYSIS...
     ### i.e. object: 'the closest pig'
@@ -75,11 +113,12 @@ def doObjCommand(verb, obj, agent):
     # perform action on obj
     # code(verb, obj, agent)
 
+    objString = getObjectString(obj)
     if verb.lemma_ == 'use':
-    else:
-
-
-    pass
+        hotkey = getHotKeyForItem(objString, agent)
+        print 'hotbar.%d' % hotkey
+        agent.sendCommand('hotbar.%d 1' % hotkey)
+        agent.sendCommand('hotbar.%d 0' % hotkey)
 
 
 def doPrepCommand(verb, prep, agent):
@@ -160,15 +199,14 @@ def printConjuncts(doc):
 def parseText(text, agent):
     doc = nlp(text.decode("utf-8"))
 
+    printDependencies(doc)
+
     # for np in doc.noun_chunks:
     #      np.merge(np.root.tag_, np.text, np.root.ent_type_)
     #
     for sentence in doc.sents:
         root = sentence.root
         parseVerb(root, agent)
-
-    printDependencies(doc)
-
 
 nlp = spacy.load('en')
 
@@ -201,7 +239,6 @@ import MalmoPython
 import os
 import sys
 import time
-import command
 import random
 import json
 from collections import namedtuple
@@ -239,6 +276,11 @@ missionXML = '''<?xml version="1.0" encoding="UTF-8" ?>
                     <InventoryBlock slot="0" type="diamond_pickaxe" quantity="1"/>
                     <InventoryBlock slot="1" type="diamond_sword" quantity="1"/>
                     <InventoryBlock slot="2" type="iron_sword" quantity="1"/>
+                    <InventoryBlock slot="3" type="stone" quantity="2"/>
+                    <InventoryBlock slot="4" type="heavy_weighted_pressure_plate" quantity="1"/>
+                    <InventoryBlock slot="5" type="light_weighted_pressure_plate" quantity="1"/>
+
+                    
                 </Inventory>
             </AgentStart>
             <AgentHandlers>
@@ -250,9 +292,9 @@ missionXML = '''<?xml version="1.0" encoding="UTF-8" ?>
                 <ChatCommands />
                 <MissionQuitCommands />
                 
-                <ObservationFromHotBar />
                 <ObservationFromRay />
                 <ObservationFromFullInventory />
+                <ObservationFromHotBar />
                 <ObservationFromFullStats />
                 <ObservationFromDiscreteCell />
                 <ObservationFromNearbyEntities>
