@@ -30,9 +30,11 @@ Our project can currently perform the following commands (and those similar):
 - [Code][refCode]
 - [Pictures][refPictures]
 - [Malmo][refMalmo]
+- [spaCy NLP library][refSpaCy]
 
 
 [refCode]: https://github.com/HiroIshikawa/speech2craft/tree/master/experiment/all
 [refPictures]: https://github.com/HiroIshikawa/speech2craft/tree/master/docs/imgs
 [refMalmo]: https://github.com/Microsoft/malmo
 [refStatus]: https://github.com/HiroIshikawa/speech2craft/tree/master/docs/status.md
+[refSpaCy]: https://spacy.io/
