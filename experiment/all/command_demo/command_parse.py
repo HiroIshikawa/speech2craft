@@ -4,7 +4,6 @@ from spacy.symbols import *
 import time
 import json
 
-import task
 
 class CommandParser:
     def __init__( self, agent_host, doc=None ):
@@ -43,8 +42,16 @@ class CommandParser:
         if self.doc_ is not None:
             for sentence in self.doc_.sents:
                 root = sentence.root
+                print('root.text: '),
+                print(root.text)
+                if root.text == u'go':
+                    print('returning go to')
+                    return 'goto'
+                elif root.text == u'stop':
+                    print('returning stop')
+                    return 'stop'
                 self.parseVerb_(root)
-
+        return ''
 
     def parseVerb_( self, verb ):
         if verb.lemma_ not in self.command_map:  # check if given verb is a valid command
@@ -131,16 +138,10 @@ class CommandParser:
 
     def doPrepCommand_( self, verb, prep ):
         if prep.n_rights:
-            # rights = list(prep.rights)
-            # pobj = rights[0]
+            rights = list(prep.rights)
+            pobj = prep.rights[0]
             ### if object exists --> Howard's code to move to said object
             ### HowardCode(verb, obj, agent)
-            world_state = self.agent_host.getWorldState()
-            while world_state.is_mission_running:
-                task.runGoto(self.agent_host)
-                world_state = self.agent_host.getWorldState()
-                for error in world_state.errors:
-                    print "Error:", error.text
 
 
 
