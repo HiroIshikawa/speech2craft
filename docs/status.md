@@ -3,6 +3,8 @@ layout: default
 title:  Status
 ---
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/tdBFFRMu1i0" frameborder="0" allowfullscreen></iframe>
+
 # Project Status
 Our project's goal is to implement a speech-to-command application for Minecraft that allows the user to be able to play the game using just voice commands. The goals that the current iteration of our project can accomplish are the speech recognition portion, where we are able to convert a recorded speech into text format. Then we are able to take this text format and parse it using natural language processing, which is the focus of our project, in order for it to be interpretted by the Malmo command framework. Using Malmo, we are able to take these parsed commands and move the agent according to the vocal command.
 
@@ -19,7 +21,6 @@ Malmo Commands
 
 ### Evaluation
 Our project is currently performing well under the expectations placed on this project for this stage in development. We are able to perform basic speech commands and have the agent reflect those commands accurately. In addition, we accomplished the 'go to (object)' command in time for this stage of our project development. We still have many more ideas and commands that we would like to implement in order to make it work cleaner and be more user-friendly, but we are confident in our progress so far, and some features are currently in testing, but not yet ready for a demo.
-- TO DO: include screenshots or figures
 
 ![alt text](https://github.com/HiroIshikawa/speech2craft/blob/master/docs/imgs/jump_and_chase1.png "Jump and chase target 1")
 ![alt text](https://github.com/HiroIshikawa/speech2craft/blob/master/docs/imgs/jump_and_chase2.png "Jump and chase target 2")
