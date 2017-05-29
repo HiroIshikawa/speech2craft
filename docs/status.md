@@ -25,8 +25,7 @@ Malmo Commands
 ### Evaluation
 Our project is currently performing well under the expectations placed on this project for this stage in development. We are able to perform basic speech commands and have the agent reflect those commands accurately. In addition, we accomplished the 'go to (object)' command in time for this stage of our project development. We still have many more ideas and commands that we would like to implement in order to make it work cleaner and be more user-friendly, but we are confident in our progress so far, and some features are currently in testing, but not yet ready for a demo.
 
-![alt text](https://raw.githubusercontent.com/HiroIshikawa/speech2craft/master/docs/imgs/jump_and_chase1.png "Jump and chase target 1")
-068fcbeb2ba7b834a866568a9
+<img src="https://raw.githubusercontent.com/HiroIshikawa/speech2craft/master/docs/imgs/jump_and_chase1.png"width="500">
 
 ### Remaining Goals and Challenges
 Our project prototype is currently limited by the number of commands that it is currently able to interpret, as well as the ability for the agent to perform like a human. For improving what we have currently, certain features, like the obstacle avoidance feature, can be improved and further tested, but is working relatively well in our customized testing environment.
