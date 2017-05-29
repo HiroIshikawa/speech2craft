@@ -22,11 +22,11 @@ Our project is currently performing well under the expectations placed on this p
 - TO DO: include screenshots or figures
 
 ![alt text](https://github.com/HiroIshikawa/speech2craft/blob/master/docs/imgs/jump_and_chase1.png "Jump and chase target 1")
-![alt text](https://github.com/HiroIshikawa/speech2craft/tree/master/docs/imgs/jump_and_chase2.png "Jump and chase target 2")
-![alt text](https://github.com/HiroIshikawa/speech2craft/tree/master/docs/imgs/jump_and_chase3.png "Jump and chase target 3")
-![alt text](https://github.com/HiroIshikawa/speech2craft/tree/master/docs/imgs/use1.png "Use items 1")
-![alt text](https://github.com/HiroIshikawa/speech2craft/tree/master/docs/imgs/use2.png "Use items 2")
-![alt text](https://github.com/HiroIshikawa/speech2craft/tree/master/docs/imgs/use2.png "Use items 3")
+![alt text](https://github.com/HiroIshikawa/speech2craft/blob/master/docs/imgs/jump_and_chase2.png "Jump and chase target 2")
+![alt text](https://github.com/HiroIshikawa/speech2craft/blob/master/docs/imgs/jump_and_chase3.png "Jump and chase target 3")
+![alt text](https://github.com/HiroIshikawa/speech2craft/blob/master/docs/imgs/use1.png "Use items 1")
+![alt text](https://github.com/HiroIshikawa/speech2craft/blob/master/docs/imgs/use2.png "Use items 2")
+![alt text](https://github.com/HiroIshikawa/speech2craft/blob/master/docs/imgs/use2.png "Use items 3")
 
 ### Remaining Goals and Challenges
 Our project prototype is currently limited by the number of commands that it is currently able to interpret, as well as the ability for the agent to perform like a human. For improving what we have currently, certain features, like the obstacle avoidance feature, can be improved and further tested, but is working relatively well in our customized testing environment.
