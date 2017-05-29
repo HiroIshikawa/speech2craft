@@ -4,7 +4,11 @@ title:  Speech2craft
 ---
 
 # Speech2craft
+<<<<<<< HEAD
 <img src="https://raw.githubusercontent.com/HiroIshikawa/speech2craft/master/docs/imgs/professor_slide_NLP.PNG" width="500">
+=======
+<img src="speech2craft/docs/imgs/professor_slide_NLP.PNG" width="500" />
+>>>>>>> 24913c4e1a59989068fcbeb2ba7b834a866568a9
 
 [Slide from Professor Sameer Singh's lecture](http://sameersingh.org/courses/aiproj/sp17/slides/lecture-0406-projs-and-intro-rl.pdf "Slide 22")
 
