@@ -9,9 +9,11 @@ Our project's goal is to implement a speech-to-command application for Minecraft
 ### Approach
 Speech Recognition
 - Our approach is pretty straight forward here - we use Python speech recognition through Google Speech API in order to extract text from a recorded audio file to be used by our next step
+
 Natural Language Processing
 - After extracting text from user speech, we parse the speech using open-source NLP library, spaCy
 - Using spaCy's dependency and part-of-speech parsing, we are able to navigate the parse tree, make sense of the user's commands, and translate them into valid Malmo commands
+
 Malmo Commands
 - After parsing the necessary text to be read as commands, we use the Malmo environment in order to process these commands
 - Using "<ObservationFromNearbyEntities>" as our main method of accessing the state of the environment, we are able to analyze the environment and perform the necessary actions that reflect the voice command
