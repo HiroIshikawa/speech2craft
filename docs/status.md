@@ -28,11 +28,13 @@ Our project is currently performing well under the expectations placed on this p
 Usage examples:
 
 Chase a target with object avoidance:
+
 ![alt text](https://raw.githubusercontent.com/HiroIshikawa/speech2craft/master/docs/imgs/jump_and_chase1.png "Jump and chase target 1"){:height="50%" width="50%"}
 ![alt text](https://raw.githubusercontent.com/HiroIshikawa/speech2craft/master/docs/imgs/jump_and_chase2.png "Jump and chase target 2"){:height="50%" width="50%"}
 ![alt text](https://raw.githubusercontent.com/HiroIshikawa/speech2craft/master/docs/imgs/jump_and_chase3.png "Jump and chase target 3"){:height="50%" width="50%"}
 
 Use tool and smoothly dig ground:
+
 ![alt text](https://raw.githubusercontent.com/HiroIshikawa/speech2craft/master/docs/imgs/use1.png "Use 1"){:height="50%" width="50%"}
 ![alt text](https://raw.githubusercontent.com/HiroIshikawa/speech2craft/master/docs/imgs/use2.png "Use 2"){:height="50%" width="50%"}
 ![alt text](https://raw.githubusercontent.com/HiroIshikawa/speech2craft/master/docs/imgs/use3.png "Use 3"){:height="50%" width="50%"}
