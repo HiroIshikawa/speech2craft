@@ -31,6 +31,7 @@ Our project can currently perform the following commands (and those similar):
 - [Pictures][refPictures]
 - [Malmo][refMalmo]
 - [spaCy NLP library][refSpaCy]
+- [Python Google Speech API Tutorial][refGoogleSpeech]
 
 
 [refCode]: https://github.com/HiroIshikawa/speech2craft/tree/master/experiment/all
@@ -38,3 +39,4 @@ Our project can currently perform the following commands (and those similar):
 [refMalmo]: https://github.com/Microsoft/malmo
 [refStatus]: https://github.com/HiroIshikawa/speech2craft/tree/master/docs/status.md
 [refSpaCy]: https://spacy.io/
+[refGoogleSpeech]: https://pythonspot.com/en/speech-recognition-using-google-speech-api/
