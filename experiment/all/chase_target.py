@@ -40,7 +40,7 @@ AgentInfo.__new__.__defaults__ = (0, 0, 0, 0, 0, "")
 
 
 # Task params:
-AGENT_TYPE = "Agent Host"
+AGENT_TYPE = "Rover"
 NUM_GOALS = 1
 GOAL_TYPE = "Pig"
 GOAL_REWARD = 100
@@ -97,14 +97,14 @@ def getMissionXML():
                             <DrawCuboid ''' + getCorner("1",True,True,expand=1) + " " + getCorner("2",False,False,y=226,expand=1) + ''' type="sandstone"/>
                             <DrawCuboid ''' + getCorner("1",True,True,y=207) + " " + getCorner("2",False,False,y=226) + ''' type="air"/>
                             <DrawEntity x="0" y="210" z="10" type="Pig"/>
-                            <DrawBlock x="0" y="211" z="6" type="sand"/>
-                            <DrawBlock x="1" y="211" z="6" type="sand"/>
-                            <DrawBlock x="2" y="211" z="6" type="sand"/>
-                            <DrawBlock x="3" y="211" z="6" type="sand"/>
-                            <DrawBlock x="4" y="211" z="6" type="sand"/>
-                            <DrawBlock x="-1" y="211" z="6" type="sand"/>
-                            <DrawBlock x="-2" y="211" z="6" type="sand"/>
-                            <DrawBlock x="-3" y="211" z="6" type="sand"/>
+                            <DrawBlock x="0" y="211" z="4" type="sand"/>
+                            <DrawBlock x="1" y="211" z="4" type="sand"/>
+                            <DrawBlock x="2" y="211" z="4" type="sand"/>
+                            <DrawBlock x="3" y="211" z="4" type="sand"/>
+                            <DrawBlock x="4" y="211" z="4" type="sand"/>
+                            <DrawBlock x="-1" y="211" z="4" type="sand"/>
+                            <DrawBlock x="-2" y="211" z="4" type="sand"/>
+                            <DrawBlock x="-3" y="211" z="4" type="sand"/>
                             <DrawEntity x="10" y="210" z="10" type="Sheep"/>
                             <DrawEntity x="10" y="210" z="0" type="Cow"/>
                             <!--<DrawBlock type="mob_spawner" variant="Pig" x="0" y="56" z="0"/>-->
