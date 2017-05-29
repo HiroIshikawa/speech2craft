@@ -26,10 +26,13 @@ Our project can currently perform the following commands (and those similar):
 
 
 ### Links:
+- [Status Report][refStatus]
 - [Code][refCode]
 - [Pictures][refPictures]
 - [Malmo][refMalmo]
 
+
 [refCode]: https://github.com/HiroIshikawa/speech2craft/tree/master/experiment/all
-[refPictures]: https://github.com/HiroIshikawa/speech2craft/tree/master/docs/img
+[refPictures]: https://github.com/HiroIshikawa/speech2craft/tree/master/docs/imgs
 [refMalmo]: https://github.com/Microsoft/malmo
+[refStatus]: https://github.com/HiroIshikawa/speech2craft/tree/master/docs/status.md
