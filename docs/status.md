@@ -22,8 +22,11 @@ Malmo Commands
 ### Evaluation
 Our project is currently performing well under the expectations placed on this project for this stage in development. We are able to perform basic speech commands and have the agent reflect those commands accurately. In addition, we accomplished the 'go to (object)' command in time for this stage of our project development. We still have many more ideas and commands that we would like to implement in order to make it work cleaner and be more user-friendly, but we are confident in our progress so far, and some features are currently in testing, but not yet ready for a demo.
 - TO DO: include screenshots or figures
+- [All Pictures/Video][refPV]
 
 ### Remaining Goals and Challenges
 Our project prototype is currently limited by the number of commands that it is currently able to interpret, as well as the ability for the agent to perform like a human. For improving what we have currently, certain features, like the obstacle avoidance feature, can be improved and further tested, but is working relatively well in our customized testing environment.
 For the final report, we would like to implement many more commands, such as "move until hitting a wall" or "attack the zombie". We would also like to implement more AI algorithms in order to make the agent's movement and actions more fluid in a "real-world" Minecraft environment.
 Given our experience so far, some of the challenges we face for completing our goals for the final report include: adequately parsing more advanced sentences, accurately reflecting some of these more advanced actionsin Malmo, implementing any AI qualities in the agent for more advanced movements ("attack the zombie and come back"), and properly executing user-friendly functions (queueing up commands or overriding current commands).
+
+[refPV]: https://github.com/HiroIshikawa/speech2craft/tree/master/docs/imgs
