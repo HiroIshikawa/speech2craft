@@ -4,7 +4,7 @@ title:  Speech2craft
 ---
 
 # Speech2craft
-<img src="imgs/professor_slide_NLP.PNG" width="500" />
+<img src="speech2craft/docs/imgs/professor_slide_NLP.PNG" width="500" />
 
 [Slide from Professor Sameer Singh's lecture](http://sameersingh.org/courses/aiproj/sp17/slides/lecture-0406-projs-and-intro-rl.pdf "Slide 22")
 
