@@ -4,18 +4,19 @@ title:  Status
 ---
 
 # Project Status
-Our project's goal is to implement a speech-to-command application for Minecraft that allows the user to be able to play the game using just voice commands. The goals that the current iteration of our project can accomplish are the speech recognition portion, where we are able to convert a recorded speech into text format. Then we are able to take this text format and parse it using natural language processing, which is the focus of our project, in order for it to be interpretted by the Malmo command framework. Using Malmo, we are able to take these parsed commands and move the agent according to the vocal command.
+Our project's goal is to implement a speech-to-command application for Minecraft that allows the user to be able to play the game using just voice commands. The goals that the current iteration of our project can accomplish are the speech recognition portion, where we are able to convert a recorded speech into text format. Then we are able to take this text format and parse it using natural language processing, which is the focus of our project, in order for it to be interpreted by the Malmo command framework. Using Malmo, we are able to take these parsed commands and move the agent according to the vocal command.
 
 ### Approach
 Speech Recognition
-- for speech recognition, our approach is pretty straight forward. We use the Python speech recognition library in order to extract a recorded audio file and get the necessary text to be used by our next step
+- Our approach is pretty straight forward here - we use Python speech recognition through Google Speech API in order to extract text from a recorded audio file to be used by our next step
 Natural Language Processing
-- TO FILL
+- After extracting text from user speech, we parse the speech using open-source NLP library, spaCy
+- Using spaCy's dependency and part-of-speech parsing, we are able to navigate the parse tree, make sense of the user's commands, and translate them into valid Malmo commands
 Malmo Commands
-- after parsing the necessary text to be read as commands, we use the Malmo environment in order to process these commands
-- using "<ObservationFromNearbyEntities>" as our main method of accessing the state of the environment, we are able to analyze the environment and perform the necessary actions that reflect the voice command
-- the agent also has algorithms implemented that take advantage of the Malmo environment to follow objects (like Mobs) and avoid certain obstacles while reaching an objective, such as jumping over a block in the way
-- we also created a tkinter simulation window in order to visualize the simulation as a skyview like in mob_fun.py from the Python_Examples folder for Malmo
+- After parsing the necessary text to be read as commands, we use the Malmo environment in order to process these commands
+- Using "<ObservationFromNearbyEntities>" as our main method of accessing the state of the environment, we are able to analyze the environment and perform the necessary actions that reflect the voice command
+- The agent also has algorithms implemented that take advantage of the Malmo environment to follow objects (like Mobs) and avoid certain obstacles while reaching an objective, such as jumping over a block in the way
+- We also created a tkinter simulation window in order to visualize the simulation as a skyview like in mob_fun.py from the Python_Examples folder for Malmo
 
 ### Evaluation
 Our project is currently performing well under the expectations placed on this project for this stage in development. We are able to perform basic speech commands and have the agent reflect those commands accurately. In addition, we accomplished the 'go to (object)' command in time for this stage of our project development. We still have many more ideas and commands that we would like to implement in order to make it work cleaner and be more user-friendly, but we are confident in our progress so far, and some features are currently in testing, but not yet ready for a demo.
