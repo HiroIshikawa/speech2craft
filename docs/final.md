@@ -5,7 +5,7 @@ title:  Final Report
 
 ## Video
 
-[![Description of the Video](https://img.youtube.com/vi/FI3aW0RabBg/0.jpg)](https://www.youtube.com/watch?v=FI3aW0RabBg)
+[![Description of the Video](https://user-images.githubusercontent.com/1572847/27010227-58b926fa-4e54-11e7-89e9-2391e7943207.png)](https://www.youtube.com/embed/tdBFFRMu1i0)
 
 
 ## Project Summary
@@ -240,19 +240,19 @@ The baseline implementation of this section would be the simple movement options
 ## References
  
 #### Speech Recognition
-[SpeechRecognition](https://pypi.python.org/pypi/SpeechRecognition/)
-[Coding Jarvis in Python in 2016](https://ggulati.wordpress.com/2016/02/24/coding-jarvis-in-python-3-in-2016/)
-[What are the top ten speech recognition APIs?](https://www.quora.com/What-are-the-top-ten-speech-recognition-APIs)
-[Speech Recognition - A comparison of popular services in EN and NL](https://blog.craftworkz.co/speech-recognition-a-comparison-of-popular-services-in-en-and-nl-67a3e1b0cee6)
+- [SpeechRecognition](https://pypi.python.org/pypi/SpeechRecognition/)
+- [Coding Jarvis in Python in 2016](https://ggulati.wordpress.com/2016/02/24/coding-jarvis-in-python-3-in-2016/)
+- [What are the top ten speech recognition APIs?](https://www.quora.com/What-are-the-top-ten-speech-recognition-APIs)
+- [Speech Recognition - A comparison of popular services in EN and NL](https://blog.craftworkz.co/speech-recognition-a-comparison-of-popular-services-in-en-and-nl-67a3e1b0cee6)
  
 #### Text Parser
-[spaCy](https://spacy.io/)
-[install spaCy](https://spacy.io/docs/usage/)
-[Part-of-speech tagging](https://spacy.io/docs/usage/pos-tagging)
-[Using the dependency parse](https://spacy.io/docs/usage/dependency-parse)
-[Intro to NLP with spaCy](https://nicschrading.com/project/Intro-to-NLP-with-spaCy/)
+- [spaCy](https://spacy.io/)
+- [install spaCy](https://spacy.io/docs/usage/)
+- [Part-of-speech tagging](https://spacy.io/docs/usage/pos-tagging)
+- [Using the dependency parse](https://spacy.io/docs/usage/dependency-parse)
+- [Intro to NLP with spaCy](https://nicschrading.com/project/Intro-to-NLP-with-spaCy/)
  
 #### Command Handler
-[Malmo Class References](https://microsoft.github.io/malmo/0.14.0/Documentation/classmalmo_1_1_mission_spec.html)
-[Malmo XML Schema Documentation](https://microsoft.github.io/malmo/0.21.0/Schemas/MissionHandlers.html)
-[Malmo - MissionHandlers.xsd](https://github.com/Microsoft/malmo/blob/master/Schemas/MissionHandlers.xsd)
+- [Malmo Class References](https://microsoft.github.io/malmo/0.14.0/Documentation/classmalmo_1_1_mission_spec.html)
+- [Malmo XML Schema Documentation](https://microsoft.github.io/malmo/0.21.0/Schemas/MissionHandlers.html)
+- [Malmo - MissionHandlers.xsd](https://github.com/Microsoft/malmo/blob/master/Schemas/MissionHandlers.xsd)
