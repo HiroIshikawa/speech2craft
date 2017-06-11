@@ -5,15 +5,12 @@ title:  Final Report
 
 ## Video
 
-[![Description of the Video](https://user-images.githubusercontent.com/1572847/27010227-58b926fa-4e54-11e7-89e9-2391e7943207.png)](https://www.youtube.com/embed/tdBFFRMu1i0)
+[![Description of the Video](https://user-images.githubusercontent.com/1572847/27010256-e233485c-4e54-11e7-969c-1a653d067ac1.png)](https://www.youtube.com/embed/tdBFFRMu1i0)
 
 
 ## Project Summary
 
 
- 
-![alt text](https://user-images.githubusercontent.com/1572847/27010004-0d69ba4c-4e50-11e7-95a0-ecd7f6a0b11f.png)
- 
 The main goal of this project is to implement an application that enables users to play Minecraft with speech input. We call the entire process from the initial speech inputs to the actual actions taken by an agent in Malmo environment pipeline. The pipeline is composed of the speech recognition, text parser, command handler. The speech recognition aims at more accurate and faster result. The text parser aims at having the parser be more flexible to complex sentence and robust to variant inputs. Finally, for the command handler, given the command set provided by the parser result, aims at conducting sequence of actions that the user intended to do smoothly.
  
 Implementing the fully functional pipeline for speech inputs is important since it may be applicable for other speech related applications. Beyond the Malmo environment, it can be extended to other game playing platforms. This enables users who have trouble to interact with games by traditional hardware based controllers to have same game playing or field operation experience with others. Malmo is suitable environment to implement and test prototypes of speech2craft pipeline. Once we could build a prototype, we can apply the knowledge and techniques used to other gaming environment.
