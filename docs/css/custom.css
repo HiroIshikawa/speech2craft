@@ -57,6 +57,8 @@ body > .container {
     margin-right: auto;
     margin-left: auto;
     overflow: auto;
+    max-width: 90%;
+    max-height: 90%;
 }
 
 code {
