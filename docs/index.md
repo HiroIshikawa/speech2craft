@@ -9,7 +9,7 @@ title:  Speech2craft
 
 ## A Smart Speech Interface for Minecraft
 
-Speech2craft is a smart speech interface that allows users to play and explore the amazing world of Minecraft without having to touch a keyboard or controller. Not only it supports simple movements such as move, turn, attack, jump, pitch but also complex movements like equipping a specific tool and tracking a target entitiy. Do you want to dig the ground fast? Say "use diamondpickaxe and dig"! Do you want to chase the pig? Say "go to pig"! Speech2craft integrates technical key components. Speech recognizer converts the user's speech into text. Text parser restructure the text to a pattern and match that with Minecraft commands. Command handler allows the anget in the Minecraft to take actual actions. 
+Speech2craft is a smart speech interface that allows users to play and explore the amazing world of Minecraft without having to touch a keyboard or controller. Not only it supports simple movements such as move, turn, attack, jump, pitch but also complex movements like equipping a specific tool and tracking a target entitiy. Do you want to dig the ground fast? Say "use diamondpickaxe and dig"! Do you want to chase the pig? Say "go to pig"! Speech2craft integrates technical key components. Speech recognizer converts the user's speech into text. Text parser restructure the text to a pattern and match that with Minecraft commands. Command handler allows the anget in the Minecraft to take actual actions. Let's speech and craft!
 
 Library/API Used:
 - Speech Recognition: [SpeechRecognition](https://pypi.python.org/pypi/SpeechRecognition/)/[Google Speech API](https://cloud.google.com/speech/)
