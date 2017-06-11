@@ -4,9 +4,8 @@ title:  Speech2craft
 ---
 
 # Speech2craft
-<img src="https://raw.githubusercontent.com/HiroIshikawa/speech2craft/master/docs/imgs/professor_slide_NLP.PNG" width="500">
 
-[Slide from Professor Sameer Singh's lecture](http://sameersingh.org/courses/aiproj/sp17/slides/lecture-0406-projs-and-intro-rl.pdf "Slide 22")
+[![Description of the Video](https://user-images.githubusercontent.com/1572847/27010256-e233485c-4e54-11e7-969c-1a653d067ac1.png)](https://www.youtube.com/embed/tdBFFRMu1i0)
 
 ### Objective
 Our objective is to implement a speech-to-command feature for Minecraft that will allow the user to use verbal commands to take control of the agent's actions. The purpose of this project is to allow the user to be able to play the game without having to touch a keyboard or controller.
