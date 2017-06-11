@@ -26,7 +26,7 @@ The major components of speech2craft:
 
 ![alt text](https://user-images.githubusercontent.com/1572847/27010005-1bd406dc-4e50-11e7-86b5-5fa687cef0a6.png)
  
-For each components of the speech2craft pipeline, we have different approaches and these have advantages and disadvantages over each other. To implement speech recognizer, we used [SpeechRecognition](https://pypi.python.org/pypi/SpeechRecognition/) and google API through its implementation. Text parser leverages the [spaCy](https://spacy.io/) library to conduct several parsing tasks. For the command handler, to implement several sets of actions including simple one time continuous actions supported by Malmo command interface, we implemented a function to control the agent reacting the states of environment through observations. 
+For each components of the speech2craft pipeline, we have different approaches and these have advantages and disadvantages over each other. To implement speech recognizer, we used [SpeechRecognition](https://pypi.python.org/pypi/SpeechRecognition/) and [Google Speech API](https://cloud.google.com/speech/) through its implementation. Text parser leverages the [spaCy](https://spacy.io/) library to conduct several parsing tasks. For the command handler, to implement several sets of actions including simple one time continuous actions supported by Malmo command interface, we implemented a function to control the agent reacting the states of environment through observations. 
  
 ### Speech Recognition
  
