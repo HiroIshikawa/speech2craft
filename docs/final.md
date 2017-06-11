@@ -11,7 +11,7 @@ title:  Final Report
 ## Project Summary
 
 
-The main goal of this project is to implement an application that enables users to play Minecraft with speech input. We call the entire process from the initial speech inputs to the actual actions taken by an agent in Malmo environment pipeline. The pipeline is composed of the speech recognition, text parser, command handler. The speech recognition aims at more accurate and faster result. The text parser aims at having the parser be more flexible to complex sentence and robust to variant inputs. Finally, for the command handler, given the command set provided by the parser result, aims at conducting sequence of actions that the user intended to do smoothly.
+The main goal of this project is to implement an application that enables users to play Minecraft with speech input. We call the entire process as pipeline: from the initial speech inputs to the actual actions taken by an agent in Malmo environment. The pipeline is composed of the speech recognition, text parser, command handler. The speech recognition aims at more accurate and faster result. The text parser have the parser be more flexible to complex sentence and robust to variant inputs. Finally, for the command handler, given the command set provided by the parser result, aims at conducting sequence of actions that the user intended to do smoothly.
  
 Implementing the fully functional pipeline for speech inputs is important since it may be applicable for other speech related applications. Beyond the Malmo environment, it can be extended to other game playing platforms. This enables users who have trouble to interact with games by traditional hardware based controllers to have same game playing or field operation experience with others. Malmo is suitable environment to implement and test prototypes of speech2craft pipeline. Once we could build a prototype, we can apply the knowledge and techniques used to other gaming environment.
  
@@ -52,14 +52,16 @@ def listen():
         print("Speech your command: !")
         audio = r.listen(source)
         try:
-            print("Google Speech Recognition thinks you said " + r.recognize_google(audio))
+            print("Google Speech Recognition thinks you said "
+                + r.recognize_google(audio))
             text = r.recognize_google(audio)
             return text
         except sr.UnknownValueError:
             print("Google Speech Recognition could not understand audio")
             return None
         except sr.RequestError as e:
-            print("Could not request results from Google Speech Recognition service; {0}".format(e))
+            print("Could not request results from Google Speech 
+                 Recognition service; {0}".format(e))
             return None
 ```
  
@@ -73,11 +75,11 @@ We chose spaCy as a primary library for text parsing. spaCy includes pre-trained
 Based on the continuous movements in Malmo, we support all the simple movements such as move, jump, attack, look, pitch etc.. In addition to that, for it enables user to play Minecraft more intuitively, we are adding several set of actions called smart movements which is triggered by a specific parsing pattern. For the current version, by the command “go to <target>” pattern, the agent initiate tracking the closest target entity in the environment. Smart movements’ implementation will be explained in more detail in the next section.
  
 When we find the root and analyse the dependency, spaCy provides us with Part-of-Speech (POS) tagging and dependency tree construction. After taking the input text as an instance for text parsing, it comes with rich information associated with each word syntactically and semantically.  It is accomplished by the pre-trained English model built upon the spaCy library. POS tagging can find a word that is a root of the dependency tree of the sentence. Since our command is based on the verb initially, it confirm whether the root is verb or not. Then following process will look at the children of the root based on the syntactical dependency.
-“Go to the pig”: visualization of dependency tree
+“Go to the pig” and "Use diamond pickaxe and dig": visualization of dependency tree using [displaCy](https://demos.explosion.ai/displacy/)
  
 ![alt text](https://user-images.githubusercontent.com/1572847/27010018-490af4da-4e50-11e7-9de2-f61e326a5b06.png)
  
- 
+
 Let’s go over a simple example of parsing in python code:
 
 ```python
@@ -108,79 +110,88 @@ This code is just an example code to show how a simple parsing may work. Actual 
 To map the result of the parse onto the legal Malmo command, we defined the command_map dictionary to compare the found pattern with it. 
  
 ```python
-        self.command_map = {
-            'move': {
-                'stop': ['move 0', 'strafe 0'],
-                'forward': 'move 1', 'back': 'move -1', 'right': 'strafe 1', 'left': 'strafe -1',
-                'north': 'movenorth 1', 'south': 'movesouth 1', 'east': 'moveeast 1', 'west': 'movewest 1',
-                'to': 'LIST OF ENTITIES/OBJECTS'
-            },
-            'jump': {
-                '': 'jump 1', 'stop': ['jump 0'],
-                'forward': 'jumpmove 1', 'back': 'jumpmove -1', 'right': 'jumpstrafe 1', 'left': 'jumpstrafe -1',
-                'north': 'jumpnorth 1', 'south': 'jumpsouth 1', 'east': 'jumpeast 1', 'west': 'jumpwest 1' #'use': 'jumpuse'
-            },
-            'strafe': {'right': 'strafe 1', 'left': 'strafe -1', 'stop': ['strafe 0']},
-            'look': {'up': 'look -1', 'down': 'look 1'},
-            'pitch': {'up': 'pitch -1', 'down': 'pitch 1', 'stop': ['pitch 0']},
-            'turn': {'right': 'turn 1', 'left': 'turn -1', 'stop': ['turn 0'], 'to': 'LIST OF ENTITIES/OBJECTS'},
-            'crouch': {'': 'crouch 1', 'stop': ['crouch 0']},
-            'attack': {'': 'attack 1', 'stop': ['attack 0']},
-            'dig': {'': 'attack 1'},
-            'use': 'INVENTORY LIST',
-            'stop': ['move 0', 'jump 0', 'turn 0', 'strafe 0', 'pitch 0', 'crouch 0', 'attack 0'],
-            'go': {'to': []}, #object and entity list?
-            'pick': {'up': 'LIST OF ENTITIES/OBJECTS'}
-        }
+self.command_map = {
+    'move': {
+        'stop': ['move 0', 'strafe 0'],
+        'forward': 'move 1', 'back': 'move -1', 
+        'right': 'strafe 1', 'left': 'strafe -1',
+        'north': 'movenorth 1', 'south': 'movesouth 1', 
+        'east': 'moveeast 1', 'west': 'movewest 1',
+        'to': 'LIST OF ENTITIES/OBJECTS'
+    },
+    'jump': {
+        '': 'jump 1', 'stop': ['jump 0'],
+        'forward': 'jumpmove 1', 'back': 'jumpmove -1', 
+        'right': 'jumpstrafe 1', 'left': 'jumpstrafe -1',
+        'north': 'jumpnorth 1', 'south': 'jumpsouth 1', 
+        'east': 'jumpeast 1', 'west': 'jumpwest 1' #'use': 'jumpuse'
+    },
+    'strafe': {'right': 'strafe 1', 'left': 'strafe -1', 
+         'stop': ['strafe 0']},
+    'look': {'up': 'look -1', 'down': 'look 1'},
+    'pitch': {'up': 'pitch -1', 'down': 'pitch 1', 
+         'stop': ['pitch 0']},
+    'turn': {'right': 'turn 1', 'left': 'turn -1', 
+         'stop': ['turn 0'], 'to': 'LIST OF ENTITIES/OBJECTS'},
+    'crouch': {'': 'crouch 1', 'stop': ['crouch 0']},
+    'attack': {'': 'attack 1', 'stop': ['attack 0']},
+    'dig': {'': 'attack 1'},
+    'use': 'INVENTORY LIST',
+    'stop': ['move 0', 'jump 0', 'turn 0', 'strafe 0', 
+        'pitch 0', 'crouch 0', 'attack 0'],
+    'go': {'to': []}, #object and entity list?
+    'pick': {'up': 'LIST OF ENTITIES/OBJECTS'}
+}
 ```
  
 The version of code including the process of filtering the patterns with command map is defined like below:
 
 ```python
-    def parseVerb_( self, verb ):
-        if verb.lemma_ not in self.command_map:  # check if given verb is a valid command
-            self.agent.sendCommand("chat Invalid Command")
-        else:
-            # rightVerbs = [child for child in verb.rights if child.pos == VERB and child.dep == conj]
-            # rights = [child for child in verb.rights if child.pos != VERB]
-            rights = [child for child in verb.rights]
-            if rights:
-                if rights[0].pos == CCONJ:
-                    self.doBasicCommand_(verb)
- 
-                options = self.command_map.get(verb.lemma_)
-                for r_child in rights:
-                    if r_child.pos == ADV or r_child.pos == PART:  # check if option is valid with given command
-                        # no parsing needed, just do command
-                        # i.e. move | forward
-                        if r_child.lemma_ in options:
-                            if r_child.lemma == 'up':
-                                # self.doObjCommand_(verb, r_child)
-                                pass
-                            else:
-                                self.doAdvCommand_(verb, r_child)
-                    elif r_child.pos == NOUN:
-                        # parse for preposition and prepositional object
-                        # i.e. choose | steel pickaxe (-> on -> the left)
-                        # check if it's a quantitative movement i.e. 1 block forward or forward 1 block
-                        if r_child.lemma_ == 'left' and r_child.lemma_ in options:
-                            self.doAdvCommand_(verb, r_child)
-                        else:
-                            self.doObjCommand_(verb, r_child)
-                    elif r_child.pos == ADP:
-                        # parse for prepositional object
-                        # i.e. go | to -> pobj
-                        self.doPrepCommand_(verb, r_child)
-                    elif r_child.pos == VERB:
-                        # parse subsequent command
-                        # choose steel pickaxe | (and) dig -> ...
-                        if verb.lemma_ == 'stop':
-                            if r_child.lemma_ in self.command_map:
-                                self.doStopCommand_(r_child)
-                        else:
-                            self.parseVerb_(r_child)
-            else:
+def parseVerb_( self, verb ):
+    # check if given verb is a valid command
+    if verb.lemma_ not in self.command_map:
+        self.agent.sendCommand("chat Invalid Command")
+    else:
+        rights = [child for child in verb.rights]
+        if rights:
+            if rights[0].pos == CCONJ:
                 self.doBasicCommand_(verb)
+
+            options = self.command_map.get(verb.lemma_)
+            for r_child in rights:
+                # check if option is valid with given command
+                if r_child.pos == ADV or r_child.pos == PART:  
+                    # no parsing needed, just do command
+                    # i.e. move | forward
+                    if r_child.lemma_ in options:
+                        if r_child.lemma == 'up':
+                            # self.doObjCommand_(verb, r_child)
+                            pass
+                        else:
+                            self.doAdvCommand_(verb, r_child)
+                elif r_child.pos == NOUN:
+                    # parse for preposition and prepositional object
+                    # i.e. choose | steel pickaxe (-> on -> the left)
+                    # check if it's a quantitative movement 
+                    # i.e. 1 block forward or forward 1 block
+                    if r_child.lemma_ == 'left' and r_child.lemma_ in options:
+                        self.doAdvCommand_(verb, r_child)
+                    else:
+                        self.doObjCommand_(verb, r_child)
+                elif r_child.pos == ADP:
+                    # parse for prepositional object
+                    # i.e. go | to -> pobj
+                    self.doPrepCommand_(verb, r_child)
+                elif r_child.pos == VERB:
+                    # parse subsequent command
+                    # choose steel pickaxe | (and) dig -> ...
+                    if verb.lemma_ == 'stop':
+                        if r_child.lemma_ in self.command_map:
+                            self.doStopCommand_(r_child)
+                    else:
+                        self.parseVerb_(r_child)
+        else:
+            self.doBasicCommand_(verb)
 ```
 As you may notice, in this snippet, it visits command map to filter out unregistered words as it go through parsing. There’s some of the limitation of the primary POS tagging provided by the spaCy trained model. For example, the left is recognized as a noun based on that while actual interpretation may be adverb in the context of Malmo play, i.e. “turn left”. This kind of limitation is naively mitigated by adding additional filter (i.e. if r_child.lemma_ == 'left'  in code) in our current version. 
  
@@ -253,3 +264,4 @@ The baseline implementation of this section would be the simple movement options
 - [Malmo Class References](https://microsoft.github.io/malmo/0.14.0/Documentation/classmalmo_1_1_mission_spec.html)
 - [Malmo XML Schema Documentation](https://microsoft.github.io/malmo/0.21.0/Schemas/MissionHandlers.html)
 - [Malmo - MissionHandlers.xsd](https://github.com/Microsoft/malmo/blob/master/Schemas/MissionHandlers.xsd)
+- [Malmo/samples/Python Examples/mob_fun.py](https://github.com/Microsoft/malmo/blob/master/Malmo/samples/Python_examples/mob_fun.py)
