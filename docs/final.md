@@ -276,7 +276,7 @@ self.synonyms = {
     'discard': set(['drop', 'throw']),
 ```
 
-Here, 'get' is the chosen command with a score of .59, whereas move only receieves a score of .49 and would not be chosen if we had strictly chosen commands based on scores.
+Here, 'get' is the chosen command with a score of .59, whereas move only receieves a score of .49 and would not be chosen if we had strictly chosen commands based on scores. Another case of failure to match would be the similarity between 'hit' and 'attack'. 
 ```
 go , crouch ==> 0.123674354369
 **go , get ==> 0.589803159155**
