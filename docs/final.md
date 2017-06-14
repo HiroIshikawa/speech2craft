@@ -292,6 +292,7 @@ The baseline implementation of this section would be the simple movement options
 - [Word similarity vectors (word2vec)](https://radimrehurek.com/gensim/models/word2vec.html)
 - [KeyedVectors](https://radimrehurek.com/gensim/models/keyedvectors.html)
 - [List of pretrained word embeddings](http://ahogrammer.com/2017/01/20/the-list-of-pretrained-word-embeddings/)
+- [Google News word2vec](https://code.google.com/archive/p/word2vec/)
  
 #### Command Handler
 - [Malmo Class References](https://microsoft.github.io/malmo/0.14.0/Documentation/classmalmo_1_1_mission_spec.html)
