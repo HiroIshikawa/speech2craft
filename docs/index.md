@@ -5,7 +5,7 @@ title:  Speech2craft
 
 # Speech2craft
 
-[![Description of the Video](https://user-images.githubusercontent.com/1572847/27010256-e233485c-4e54-11e7-969c-1a653d067ac1.png)](https://youtu.be/jMOXL3SkKSw)
+[![Description of the Video](https://user-images.githubusercontent.com/1572847/27010256-e233485c-4e54-11e7-969c-1a653d067ac1.png)](https://youtu.be/Xud8ZZL7Dsc)
 
 ## A Smart Speech Interface for Minecraft
 

@@ -120,6 +120,7 @@ def listen():
 
 def userInput(bafa, lock):
     global current_task
+    global command_parser
     while 1:
         time.sleep(0)
         raw_input("Activate command input by hit Enter: ") 

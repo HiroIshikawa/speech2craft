@@ -5,7 +5,7 @@ title:  Final Report
 
 ## Video
 
-[![Description of the Video](https://user-images.githubusercontent.com/1572847/27010256-e233485c-4e54-11e7-969c-1a653d067ac1.png)](https://youtu.be/jMOXL3SkKSw)
+[![Description of the Video](https://user-images.githubusercontent.com/1572847/27010256-e233485c-4e54-11e7-969c-1a653d067ac1.png)](https://youtu.be/Xud8ZZL7Dsc)
 
 
 ## Project Summary
@@ -68,7 +68,8 @@ def listen():
 ### Text Parser
  
  
-![alt text](https://user-images.githubusercontent.com/1572847/27010009-23622ae6-4e50-11e7-94bf-158d92c98772.png)
+![alt text](https://user-images.githubusercontent.com/1572847/27118173-ea536742-508e-11e7-99d5-d07c79543d93.png)
+
  
 We chose spaCy as a primary library for text parsing. spaCy includes pre-trained NLP models and handy functions to handle different NLP related tasks. The advantage of using spaCy over the other NLP related libraries such as NLTK is its speed, cutting-edge algorithms, and support for modern ML applications. At this stage, the input is the text recognized by the speech recognizer. The parsing step follows basically find the root word, examine the children of the root, find a match that with predefined text patterns. If a pattern match found, it process the patterns to legal Malmo command.
  

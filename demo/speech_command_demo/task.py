@@ -133,8 +133,10 @@ def runGoto(agent_host):
             distance_to_goal = getDistanceToGoal(entities)
             if distance_to_goal <= 5:
                 agent_host.sendCommand("move 0")
+                break
             else:
                 agent_host.sendCommand("move 1")
+
 
             # print('Distance to goal: '),
             # print(distance_to_goal)
