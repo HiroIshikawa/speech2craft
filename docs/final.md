@@ -260,8 +260,12 @@ The baseline implementation of this section would be the simple movement options
 - [Part-of-speech tagging](https://spacy.io/docs/usage/pos-tagging)
 - [Using the dependency parse](https://spacy.io/docs/usage/dependency-parse)
 - [Intro to NLP with spaCy](https://nicschrading.com/project/Intro-to-NLP-with-spaCy/)
+- [sense2vec with spaCy](https://explosion.ai/blog/sense2vec-with-spacy)
+
+#### Word Similarity
 - [genism](https://radimrehurek.com/gensim/)
-- [genism word similarity vectors (word2vec)](https://radimrehurek.com/gensim/models/word2vec.html)
+- [Word similarity vectors (word2vec)](https://radimrehurek.com/gensim/models/word2vec.html)
+- [KeyedVectors](https://radimrehurek.com/gensim/models/keyedvectors.html)
  
 #### Command Handler
 - [Malmo Class References](https://microsoft.github.io/malmo/0.14.0/Documentation/classmalmo_1_1_mission_spec.html)
