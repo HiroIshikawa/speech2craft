@@ -268,7 +268,15 @@ Our method using the POS tagging and dependency makes the program more efficient
 
 ### Word Vector Similarity
 Although word similarity scoring allowed us to expand the set of possible user-spoken commands, it did not come without difficulties. For example, certain words did not match to the proper Malmo commmand. We mitigated this problem by adding a dictionary of synonyms for malmo commands that are clearly correlated, but did not match based on the pretrained word embedding. We matched the the word to the command if it was found in its list of synonyms.
+```python
+self.synonyms = {
+    'move': set(['go', 'walk']),
+    'attack': set(['hit', 'dig']),
+    'use': set(['hold']),
+    'discard': set(['drop', 'throw']),
+```
 
+Here, 'get' is the chosen command with a score of .59, whereas move only receieves a score of .49 and would not be chosen if we had strictly chosen commands based on scores.
 ```
 go , crouch ==> 0.123674354369
 **go , get ==> 0.589803159155**
@@ -285,13 +293,7 @@ go , strafe ==> 0.144138647322
 go , discard ==> 0.213456853048
 ```
 
-```python
-self.synonyms = {
-    'move': set(['go', 'walk']),
-    'attack': set(['hit', 'dig']),
-    'use': set(['hold']),
-    'discard': set(['drop', 'throw']),
-```
+While there were quite a few words that did not match properly, word2vec similarity scoring ultimately allowed us to broaden the interpreting power of our NLP project. It provided a good foundation for understanding spoken human language beyond the restricted domain of the Malmo command handler. It is noted, however, that it can definitely benefit from further tuning and learning. 
 
 
 
