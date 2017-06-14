@@ -266,6 +266,7 @@ The baseline implementation of this section would be the simple movement options
 - [genism](https://radimrehurek.com/gensim/)
 - [Word similarity vectors (word2vec)](https://radimrehurek.com/gensim/models/word2vec.html)
 - [KeyedVectors](https://radimrehurek.com/gensim/models/keyedvectors.html)
+- [List of pretrained word embeddings](http://ahogrammer.com/2017/01/20/the-list-of-pretrained-word-embeddings/)
  
 #### Command Handler
 - [Malmo Class References](https://microsoft.github.io/malmo/0.14.0/Documentation/classmalmo_1_1_mission_spec.html)
