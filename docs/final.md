@@ -209,8 +209,14 @@ self.word2vec = KeyedVectors.load('word_embeddings/GoogleNews', mmap='r')
 ```
 
 Consequently, we began to parse verbs differently. We first checked if the verb we were parsing was already a pre-defined Malmo command. If it was, no word similarity analysis was required. If it was not, we searched through all possible Malmo commands, and matched the verb to the pre-defined command that had the highest similarity score. However, if the highest similarity score was below a certain threshold, we would consider the command invalid entirely.  
+```python
+for command in malmo_commands:
+    score = word2vec.similarity(verb, command)
 
-We followed the same process when selecting inventory/hotbar items. If the user wished to use an item ('use item'), then their spoken item choice would be matched to all the items in the hotbar slots. If no hotbar items matched exactly, word similarity scoring was used to select the best match.   
+# return command with the highest score
+```
+
+We followed the same process when selecting inventory/hotbar items. If the user wished to use an item ('use item'), then their spoken item choice would be matched to all the items in the hotbar slots. If no hotbar items matched exactly, word similarity scoring was used to select the best match. This is clearly demonstrated within our project video.
  
  
 ### Command Handler
