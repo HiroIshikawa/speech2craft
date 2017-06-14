@@ -111,36 +111,29 @@ To map the result of the parse onto the legal Malmo command, we defined the comm
  
 ```python
 self.command_map = {
-    'move': {
-        'stop': ['move 0', 'strafe 0'],
-        'forward': 'move 1', 'back': 'move -1', 
-        'right': 'strafe 1', 'left': 'strafe -1',
-        'north': 'movenorth 1', 'south': 'movesouth 1', 
-        'east': 'moveeast 1', 'west': 'movewest 1',
-        'to': 'LIST OF ENTITIES/OBJECTS'
-    },
-    'jump': {
-        '': 'jump 1', 'stop': ['jump 0'],
-        'forward': 'jumpmove 1', 'back': 'jumpmove -1', 
-        'right': 'jumpstrafe 1', 'left': 'jumpstrafe -1',
-        'north': 'jumpnorth 1', 'south': 'jumpsouth 1', 
-        'east': 'jumpeast 1', 'west': 'jumpwest 1' #'use': 'jumpuse'
-    },
-    'strafe': {'right': 'strafe 1', 'left': 'strafe -1', 
-         'stop': ['strafe 0']},
-    'look': {'up': 'look -1', 'down': 'look 1'},
-    'pitch': {'up': 'pitch -1', 'down': 'pitch 1', 
-         'stop': ['pitch 0']},
-    'turn': {'right': 'turn 1', 'left': 'turn -1', 
-         'stop': ['turn 0'], 'to': 'LIST OF ENTITIES/OBJECTS'},
-    'crouch': {'': 'crouch 1', 'stop': ['crouch 0']},
-    'attack': {'': 'attack 1', 'stop': ['attack 0']},
-    'dig': {'': 'attack 1'},
-    'use': 'INVENTORY LIST',
-    'stop': ['move 0', 'jump 0', 'turn 0', 'strafe 0', 
-        'pitch 0', 'crouch 0', 'attack 0'],
-    'go': {'to': []}, #object and entity list?
-    'pick': {'up': 'LIST OF ENTITIES/OBJECTS'}
+   'move': {
+       'stop': ['move 0', 'strafe 0'],
+       'forward': 'move 1', 'back': 'move -1', 'backwards': 'move -1', 'right': 'strafe 1', 'left': 'strafe -1',
+       'north': 'movenorth 1', 'south': 'movesouth 1', 'east': 'moveeast 1', 'west': 'movewest 1',
+       'to': 'LIST OF ENTITIES/OBJECTS'
+   },
+   'jump': {
+       '': 'jump 1', 'up': 'jump 1', 'stop': ['jump 0'], 'forward': 'jumpmove 1', 'back': 'jumpmove -1',
+       'backwards': 'jumpmove -1', 'right': 'jumpstrafe 1', 'left': 'jumpstrafe -1',
+       'north': 'jumpnorth 1', 'south': 'jumpsouth 1', 'east': 'jumpeast 1', 'west': 'jumpwest 1'
+   },
+   'strafe': {'right': 'strafe 1', 'left': 'strafe -1', 'stop': ['strafe 0']},
+   'look': {'up': 'look -1', 'down': 'look 1'},
+   'pitch': {'up': 'pitch -1', 'down': 'pitch 1', 'stop': ['pitch 0']},
+   'turn': {'right': 'turn 1', 'left': 'turn -1', 'stop': ['turn 0', 'pitch 0'],
+            'up': 'pitch -1', 'down': 'pitch 1'},
+   'crouch': {'': 'crouch 1', 'stop': ['crouch 0']},
+   'attack': {'': 'attack 1', 'stop': ['attack 0']},
+   'use': {},
+   'stop': ['move 0', 'jump 0', 'turn 0', 'strafe 0', 'pitch 0', 'crouch 0', 'attack 0'],
+   'get': {'': 'LIST OF ENTITIES/OBJECTS'},
+   'discard': {'': 'discardCurrentItem'},
+   'quit': {'': 'quit'}
 }
 ```
  
@@ -196,6 +189,29 @@ def parseVerb_( self, verb ):
 As you may notice, in this snippet, it visits command map to filter out unregistered words as it go through parsing. There’s some of the limitation of the primary POS tagging provided by the spaCy trained model. For example, the left is recognized as a noun based on that while actual interpretation may be adverb in the context of Malmo play, i.e. “turn left”. This kind of limitation is naively mitigated by adding additional filter (i.e. if r_child.lemma_ == 'left'  in code) in our current version. 
  
 Compared to other approach, which is building specialized trained model for the Malmo usages, using spaCy prebuild training model and mitigating some of the corner cases by additional filtering has advantages. You just do not need to build a model, hence you do not require any data and takes no time regarding training obviously. For the processing speed, considering the small text amount given at a time and small search space on command map, this simple pattern match mechanism works well in actual run.
+ 
+ 
+### Word Vector Similarity
+We implemented word vector similarity scoring in order to expand the range of commands that a user could input into our system. Using pretrained word embeddings loaded through Genism's modeling toolkit, we were able to incorporate commands beyond the predefined set defined by Malmo.
+
+First, we loaded in a word2vec pretrained vector trained on a portion of Google News dataset. 
+```python
+model = KeyedVectors.load_word2vec_format('word_embeddings/GoogleNews-vectors-negative300.bin', binary=True)
+```
+
+However, loading times were very slow, as the word vector file was 3.5 gigabytes. We decided to save the model ourselves through Genism in order to speed up loading times.
+```python
+model.init_sims(replace=True)
+model.save('word_embeddings/GoogleNews)
+
+# Now in other places that use the word vector, we simply load the model we saved above
+self.word2vec = KeyedVectors.load('word_embeddings/GoogleNews', mmap='r')
+```
+
+Consequently, we began to parse verbs differently. We first checked if the verb we were parsing was already a pre-defined Malmo command. If it was, no word similarity analysis was required. If it was not, we searched through all possible Malmo commands, and matched the verb to the pre-defined command that had the highest similarity score. However, if the highest similarity score was below a certain threshold, we would consider the command invalid entirely.  
+
+We followed the same process when selecting inventory/hotbar items. If the user wished to use an item ('use item'), then their spoken item choice would be matched to all the items in the hotbar slots. If no hotbar items matched exactly, word similarity scoring was used to select the best match.   
+ 
  
 ### Command Handler
 
