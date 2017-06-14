@@ -213,7 +213,8 @@ Consequently, we began to parse verbs differently. We first checked if the verb 
 for command in malmo_commands:
     score = word2vec.similarity(verb, command)
 
-# return command with the highest score
+if best score > threshhold:
+    return command with the highest score
 ```
 
 We followed the same process when selecting inventory/hotbar items. If the user wished to use an item ('use item'), then their spoken item choice would be matched to all the items in the hotbar slots. If no hotbar items matched exactly, word similarity scoring was used to select the best match. This is clearly demonstrated within our project video.
