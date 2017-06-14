@@ -243,7 +243,7 @@ Our method using the POS tagging and dependency makes the program more efficient
 ### Command Handler
  
 #### Usability
-The baseline implementation of this section would be the simple movement options such sa “move forward”, “turn left/right” etc.. available.  The smart movements that is a combination of several commands and responsive to the changes of environment through observation solves the problem that users may encounter when only simple command set is available. For example, chasing a specific target is hard if you do not have the smart movement command “go to <target>” pattern. User needs to keep sending according movement commands while monitoring potentially movement target.
+The baseline implementation of this section would be the simple movement options, such as “move forward”, “turn left/right”, "got to", etc. The smart movements that are a combination of several commands and responsive to the changes of environment through observations solves the problem that users may encounter when only a simple command set is available. For example, chasing a specific target is hard if you do not have the smart movement command “go to <target>” pattern. The user needs to keep sending movement commands accordingly while monitoring a potentially moving target. The smart movements, which are going around walls, stopping at walls, and jumping over obstacles, work 99 percent of the time from the controlled tests that we have performed with these movements. From a visual standpoint, the agent will twitch a little when turning or jumping, but it moves decently and will traverse in relatively the same time as if a real person were making those movements.
  
 
 ## References
