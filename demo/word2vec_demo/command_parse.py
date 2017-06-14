@@ -47,21 +47,30 @@ class CommandParser:
             'look': set([]),
             'pitch': set(['gaze', 'tilt']),
             'turn': set([]),
-            'crouch': set(),
+            'crouch': set(['squat']),
             'attack': set(['hit', 'dig']),
             'use': set(['hold', 'wield']),
             'stop': set([]),
             'get': set(['pick', 'grab']),
-            'discard': set(['drop', 'throw'])
+            'discard': set(['drop', 'throw']),
+            'Pig': set(['boar']),
+            'Donkey': [],
+            'Cow': set(['bull']),
+            'Mule': set([]),
+            'Zombie': set([]),
+            'Spider': set([]),
+            'Bat': set([]),
+            'Sheep': set([]),
+            'Wolf': set([]),
+            'Rabbit': set([]),
+            'Llama': set([]),
+            'Villager': set([])
         }
 
-        self.entities = {
-            'pig': 'pig',
-            'cow': 'cow',
-            'stone': 'stone',
-            'item': 'item',
-
-        }
+        self.entities = [
+            'pig', 'donkey', 'cow', 'mule', 'zombie', 'spider', 'bat', 'sheep', 'wolf', 'horse', 'rabbit', 'chicken',
+            'llama', 'villager'
+        ]
 
 
     def parseCommands( self, doc, agent_host=None ):
@@ -74,24 +83,21 @@ class CommandParser:
                 root = sentence.root
                 print('root.text: '),
                 print(root.lemma_, root.lower_, root.text)
-                if root.lemma_ == u'go':
-                    print('returning go to')
-                    return 'goto'
-                elif root.lemma_ == u'stop' and root.n_rights == 0:
-                     print('returning stop')
-                     return 'stop'
-                elif root.lemma_ == 'quit':
-                    print('QUITTING')
+                # if root.lemma_ == u'go':
+                #     print('returning go to')
+                #     return 'goto'
+                # elif root.lemma_ == u'stop' and root.n_rights == 0:
+                #      print('returning stop')
+                #      return 'stop'
+
+                if root.lemma_ == 'quit':
                     self.agent.sendCommand('quit')
                 self.parseVerb_(root)
         return ''
 
 
     def parseVerb_( self, verb ):
-        # if verb.lemma_ == 'left':
-        #     malmo_verb = self.getSimilarCommand_(verb.lower_, self.command_map)
-        # else:
-        malmo_verb = self.getSimilarCommand_(verb.lemma_, self.command_map)
+        malmo_verb = self.getSimilarCommand_(verb, self.command_map)
 
         if malmo_verb == '':
             self.agent.sendCommand("chat Could not understand command")
@@ -119,14 +125,14 @@ class CommandParser:
                             self.doObjCommand_(malmo_verb, r_child)
                     elif r_child.pos == ADP:
                         # parse for prepositional object
-                        # i.e. go | to -> pobj
-                        self.doPrepCommand_(malmo_verb, r_child)
+                        # i.e. move | to -> pobj
+                        return self.doPrepCommand_(malmo_verb, r_child)
                     elif r_child.pos == VERB:
                         # parse subsequent command
                         # choose steel pickaxe | (and) dig -> ...
                         # if verb.lemma_ == 'stop':
                         if malmo_verb == 'stop':
-                            malmo_stop_verb = self.getSimilarCommand_(r_child.lemma_, self.command_map)
+                            malmo_stop_verb = self.getSimilarCommand_(r_child, self.command_map)
                             if malmo_stop_verb != '':
                                 self.doStopCommand_(malmo_stop_verb)
                         else:
@@ -173,13 +179,12 @@ class CommandParser:
                 best_score = 0.3
                 best_slot = -1
                 for idx, slot in enumerate(inventory_list):
-                    print slot_base
                     slot_base = slot[slot.rfind('_') + 1:]
-                    score = self.similarity(item, slot_base)
-                    print slot_base, score
-                    if score > best_score:
-                        best_score = score
-                        best_slot = idx + 1
+                    if slot_base != '':
+                        score = self.similarity(item, slot_base)
+                        if score > best_score:
+                            best_score = score
+                            best_slot = idx + 1
                 print 'best slot - ', best_slot
                 return best_slot
             except KeyError as e:
@@ -195,6 +200,7 @@ class CommandParser:
             best_word = ''
             for malmo_word in options:
                 score = self.similarity(word, malmo_word)
+                print malmo_word, score
                 if score > best_score:
                     best_score = score
                     best_word = malmo_word
@@ -204,15 +210,15 @@ class CommandParser:
 
 
     def getSimilarCommand_( self, verb, options ):
-        if verb in self.synonyms:
-            return verb
-        if verb == 'left':
-            return verb
+        if verb.lemma_ in self.synonyms:
+            return verb.lemma_
+        if verb.lemma_ == 'left' or verb.pos != VERB:
+            return verb.lemma_
         for action in self.synonyms:
-            if verb in self.synonyms.get(action):
+            if verb.lemma_ in self.synonyms.get(action):
                 return action
 
-        return self.getBestMatch(verb, options)
+        return self.getBestMatch(verb.lemma_, options)
 
 
 
@@ -238,7 +244,7 @@ class CommandParser:
 
 
     def doObjCommand_( self, verb, obj ):
-        objString = getObjectString(obj)
+        objString = self.getObjectString(obj)
         if verb == 'use':
             hotkey = self.getHotKeyForItem(objString)
             print 'hotbar.%d' % hotkey
@@ -262,6 +268,12 @@ class CommandParser:
         if prep.n_rights:
             pobj = prep.rights.next()
             print 'prepositional object: ' + pobj.lemma_
+            goal = self.getBestMatch(pobj.lemma_, self.entities)
+            print 'GOAL:', goal
+            #task.runGoto(self.agent, goal)
+            if verb == 'move':
+                return goal
+
             ### if object exists --> Howard's code to move to said object
             ### HowardCode(verb, obj, agent)
 
@@ -270,6 +282,15 @@ class CommandParser:
     #     self.agent.sendCommand('quit')
     #     time.sleep(0.5)
 
+    # Helpers
+    def getObjectString(self, obj):
+        string = ''
+        for child in obj.lefts:
+            if child.dep_ == 'compound' or child.dep == amod:
+                string += child.lower_ + '_'
+        string += obj.lemma_
+
+        return string
 
 
 
@@ -319,15 +340,10 @@ class TextParser:
 
 
 
-# Helpers
-def getObjectString( obj ):
-    string = ''
-    for child in obj.lefts:
-        if child.dep_ == 'compound' or child.dep == amod:
-            string += child.lower_ + '_'
-    string += obj.lemma_
 
-    return string
+
+
+
 
 # def getHotKeyForItem( item, agent ):
 #     world_state = agent.getWorldState()
@@ -365,3 +381,5 @@ def getObjectString( obj ):
 #
 #
 #     return -1
+
+

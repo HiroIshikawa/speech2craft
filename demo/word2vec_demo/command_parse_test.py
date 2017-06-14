@@ -59,6 +59,7 @@ missionXML = '''<?xml version="1.0" encoding="UTF-8" ?>
                     <DrawingDecorator>
                         <DrawEntity x="0" y="56" z="0" type="Pig"/>
                         <!--<DrawBlock type="mob_spawner" variant="Pig" x="0" y="56" z="0"/>-->
+                        <DrawEntity x="0" y="56" z="0" type="Cow"/>
                     </DrawingDecorator>
             </ServerHandlers>
         </ServerSection>
