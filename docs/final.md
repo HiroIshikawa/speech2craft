@@ -267,7 +267,7 @@ Our method using the POS tagging and dependency makes the program more efficient
  
 
 ### Word Vector Similarity
-Although word similarity scoring allowed us to expand the set of possible user-spoken commands, it did not come without difficulties. For example, certain words did not match to the proper Malmo commmand. To solve this problem, we added a dictionary of synonyms for malmo commands that are clearly correlated, but did not match based on the pretrained word embedding.
+Although word similarity scoring allowed us to expand the set of possible user-spoken commands, it did not come without difficulties. For example, certain words did not match to the proper Malmo commmand. We mitigated this problem by adding a dictionary of synonyms for malmo commands that are clearly correlated, but did not match based on the pretrained word embedding. We matched the the word to the command if it was found in its list of synonyms.
 
 ```
 go , crouch ==> 0.123674354369
@@ -287,19 +287,13 @@ go , discard ==> 0.213456853048
 
 ```python
 self.synonyms = {
-    'move': set(['go', 'run', 'walk']),
-    'jump': set([]),
-    'strafe': set([]),
-    'look': set([]),
-    'pitch': set(['gaze', 'tilt']),
-    'turn': set([]),
-    'crouch': set(['squat']),
+    'move': set(['go', 'walk']),
     'attack': set(['hit', 'dig']),
-    'use': set(['hold', 'wield']),
-    'stop': set([]),
-    'get': set(['pick', 'grab']),
+    'use': set(['hold']),
     'discard': set(['drop', 'throw']),
 ```
+
+
 
 ### Command Handler
  
