@@ -246,7 +246,7 @@ In each components of the pipeline of speech2craft, there’s several approaches
 ### Speech Recognition
 As it stands, speech recognition takes user’s voice input and convert that to text. The problem we tend to face is the inaccuracy of its recognition. The more complex the speech inputs, it gets harder to be recognized accordingly. The other factor would be the duration that the speech recognition finish the process. The relation between the accuracy and duration is trade-off. Usually, the more accuracy you aim at, the more duration you need to process. 
  
-Since the quality of this application weigh more onto the text parser part, we have not conducted intensive evaluation for this part. But, from the preliminary research, we could know that the most promising result can be attained by using Google Speech Recognition API under the assumption that user has an internet connection. 
+Since the quality of this application weigh more onto the text parser part, we have not conducted intensive evaluation for this part. But, from the preliminary research, we could know that the most promising results can be attained by using Google Speech Recognition API under the assumption that user has an internet connection. 
  
 ### Text Parser
  
@@ -267,6 +267,23 @@ Our method using the POS tagging and dependency makes the program more efficient
 
 ### Word Vector Similarity
 Although word similarity scoring allowed us to expand the set of possible user-spoken commands, it did not come without difficulties. For example, certain words did not match to the proper Malmo commmand. To solve this problem, we added a dictionary of synonyms for malmo commands that are clearly correlated, but did not match based on the pretrained word embedding.
+
+```{r, engine='bash', count_lines}
+go , crouch ==> 0.123674354369
+go , get ==> 0.589803159155
+go , move ==> 0.494788483089
+go , stop ==> 0.288347203098
+go , jump ==> 0.317825451313
+go , pitch ==> 0.221837512198
+go , quit ==> 0.271149826715
+go , use ==> 0.25773402461
+go , look ==> 0.407729331961
+go , turn ==> 0.429415481639
+go , attack ==> 0.0487696218339
+go , strafe ==> 0.144138647322
+go , discard ==> 0.213456853048
+```
+
 ```python
 self.synonyms = {
     'move': set(['go', 'run', 'walk']),
