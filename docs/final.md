@@ -213,11 +213,13 @@ Consequently, we began to parse verbs differently. We first checked if the verb 
 for command in malmo_commands:
     score = word2vec.similarity(verb, command)
 
-if best score > threshhold:
+if highest word similarity score > threshhold:
     return command with the highest score
 ```
 
-We followed the same process when selecting inventory/hotbar items. If the user wished to use an item ('use item'), then their spoken item choice would be matched to all the items in the hotbar slots. If no hotbar items matched exactly, word similarity scoring was used to select the best match. This is clearly demonstrated within our project video.
+This allows the user to speak less restricted command phrases to Malmo. Instead of 'move forward', a user can say 'walk/run/go/ forward'. 'hit' and 'dig' both refer to Malmo's 'attack' command. If a user prefers to describe the bending motion of knees as 'squat' rather than 'crouch', they now have the freedom to do so.
+
+We followed the same process when selecting inventory/hotbar items. If the user wished to use an item ('use item'), then their spoken item choice would be matched to all the items in the hotbar slots. If no hotbar items matched exactly, word similarity scoring was used to select the best match. This is clearly demonstrated within our project demo video above.
  
  
 ### Command Handler
