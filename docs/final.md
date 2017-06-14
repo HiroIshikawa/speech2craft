@@ -269,7 +269,7 @@ Our method using the POS tagging and dependency makes the program more efficient
 ### Word Vector Similarity
 Although word similarity scoring allowed us to expand the set of possible user-spoken commands, it did not come without difficulties. For example, certain words did not match to the proper Malmo commmand. To solve this problem, we added a dictionary of synonyms for malmo commands that are clearly correlated, but did not match based on the pretrained word embedding.
 
-```{r, engine='bash', count_lines}
+```
 go , crouch ==> 0.123674354369
 **go , get ==> 0.589803159155**
 **go , move ==> 0.494788483089**
