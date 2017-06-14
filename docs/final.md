@@ -115,7 +115,7 @@ self.command_map = {
        'stop': ['move 0', 'strafe 0'],
        'forward': 'move 1', 'back': 'move -1', 'backwards': 'move -1', 'right': 'strafe 1', 'left': 'strafe -1',
        'north': 'movenorth 1', 'south': 'movesouth 1', 'east': 'moveeast 1', 'west': 'movewest 1',
-       'to': 'LIST OF ENTITIES/OBJECTS'
+       'to': LIST OF ENTITIES/OBJECTS IN MINECRAFT
    },
    'jump': {
        '': 'jump 1', 'up': 'jump 1', 'stop': ['jump 0'], 'forward': 'jumpmove 1', 'back': 'jumpmove -1',
@@ -131,7 +131,7 @@ self.command_map = {
    'attack': {'': 'attack 1', 'stop': ['attack 0']},
    'use': {},
    'stop': ['move 0', 'jump 0', 'turn 0', 'strafe 0', 'pitch 0', 'crouch 0', 'attack 0'],
-   'get': {'': 'LIST OF ENTITIES/OBJECTS'},
+   'get': {'': LIST OF ENTITIES/OBJECTS IN MINECRAFT},
    'discard': {'': 'discardCurrentItem'},
    'quit': {'': 'quit'}
 }
@@ -264,7 +264,25 @@ Our method using the POS tagging and dependency makes the program more efficient
  
 ![alt text](https://user-images.githubusercontent.com/1572847/27010029-60173f12-4e50-11e7-82ad-8e333edfcf73.png)
  
- 
+
+### Word Vector Similarity
+Although word similarity scoring allowed us to expand the set of possible user-spoken commands, it did not come without difficulties. For example, certain words did not match to the proper Malmo commmand. To solve this problem, we added a dictionary of synonyms for malmo commands that are clearly correlated, but did not match based on the pretrained word embedding.
+```python
+self.synonyms = {
+    'move': set(['go', 'run', 'walk']),
+    'jump': set([]),
+    'strafe': set([]),
+    'look': set([]),
+    'pitch': set(['gaze', 'tilt']),
+    'turn': set([]),
+    'crouch': set(['squat']),
+    'attack': set(['hit', 'dig']),
+    'use': set(['hold', 'wield']),
+    'stop': set([]),
+    'get': set(['pick', 'grab']),
+    'discard': set(['drop', 'throw']),
+```
+
 ### Command Handler
  
 #### Usability
