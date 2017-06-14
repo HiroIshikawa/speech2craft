@@ -270,8 +270,8 @@ Although word similarity scoring allowed us to expand the set of possible user-s
 
 ```{r, engine='bash', count_lines}
 go , crouch ==> 0.123674354369
-go , get ==> 0.589803159155
-go , move ==> 0.494788483089
+**go , get ==> 0.589803159155**
+**go , move ==> 0.494788483089**
 go , stop ==> 0.288347203098
 go , jump ==> 0.317825451313
 go , pitch ==> 0.221837512198
